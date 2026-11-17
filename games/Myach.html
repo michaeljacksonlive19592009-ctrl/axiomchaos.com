@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>USA::GAME::BALL_BOARD</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+body {
+    font-family: 'Consolas', monospace;
+    background: #0a0a0a;
+    color: #e8e8e8;
+    display: flex;
+    flex-direction: column;
+}
+
+#field {
+    flex: 1;
+    position: relative;
+    background: #0d120d;
+    overflow: hidden;
+    min-height: 0;
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#bottom-bar {
+    flex-shrink: 0;
+    background: #0d120d;
+    border-top: 1px solid #1a2a1a;
+    padding: 22px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 10;
+}
+
+#description-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    text-align: center;
+}
+
+#description {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #8ab08a;
+    text-align: center;
+    line-height: 1.65;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1a2a1a;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#exercise {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #6a8a6a;
+    text-align: center;
+    line-height: 1.6;
+    font-style: italic;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#hint-line {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #a8c8a8;
+    text-align: center;
+    min-height: 18px;
+    font-style: italic;
+    transition: color 0.3s;
+}
+
+#bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 6px;
+}
+
+#buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+button {
+    background: #111611;
+    border: 1px solid #2a3a2a;
+    border-radius: 4px;
+    color: #8ab08a;
+    padding: 10px 14px;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+button:hover {
+    background: #1a201a;
+    border-color: #4a6a4a;
+    color: #b8d0b8;
+}
+
+button:active {
+    background: #202820;
+    transform: scale(0.97);
+}
+
+button.reset {
+    border-color: #6a3a3a;
+    color: #d0a8a8;
+}
+
+button.reset:hover {
+    background: #2a1a1a;
+    border-color: #8a4a4a;
+    color: #f0c8c8;
+}
+
+#meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    white-space: nowrap;
+}
+
+#vector {
+    color: #a8c8a8;
+    font-weight: bold;
+}
+
+#timer {
+    color: #a8d0a8;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style data-game-viewport>
+/* Standalone game viewport; no website styles are loaded. */
+html,body{height:100%;height:100dvh;min-width:0}
+body{overflow:hidden}
+#game-container{min-width:0;min-height:0}
+#field,#play-field{min-width:0;min-height:min(180px,45dvh)}
+#canvas{touch-action:none}
+#bottom-bar{max-height:48dvh;overflow-y:auto;overscroll-behavior:contain;padding:clamp(10px,2vh,22px) clamp(12px,3vw,32px);gap:clamp(7px,1.3vh,14px)}
+#bottom-inner,#buttons,#meta{flex-wrap:wrap;min-width:0}
+#meta{white-space:normal}
+#buttons button{min-height:40px}
+#history,#history-bar{max-width:100%}
+.side-number{font-size:clamp(40px,18vw,140px)}
+#panel{min-height:0;min-width:0}
+#panel-header,#input-bar{flex-shrink:0}
+#questions-list{min-height:0}
+#answer{max-width:calc(100% - 24px)}
+@media(max-width:600px){
+ #game-container:has(#panel){flex-direction:column}
+ #panel{order:1;width:100%;flex:0 0 42dvh;border-right:0;border-top:1px solid #1a2a1a}
+ #play-field{order:0;flex:1;touch-action:none}
+ #questions-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:6px;padding:8px}
+ #panel-header,#input-bar{padding:8px 12px}
+ .q-btn{min-width:0;overflow-wrap:anywhere}
+ #answer{padding:12px;font-size:15px}
+}
+
+</style></head>
+<body>
+
+<div id="field">
+    <canvas id="canvas"></canvas>
+</div>
+
+<div id="bottom-bar">
+
+    <div id="description-title">:: Игра на равновесие и управление ::</div>
+
+    <div id="description">
+        Треугольник стоит на острие. На нём доска. На доске мяч. Система нестабильна: мяч всегда стремится съехать при малейшем возмущении. Мышью управляешь наклоном доски. Плавно корректируешь. Мяч отскакивает от края доски и остаётся в игре. Игра не заканчивается. Цель: удержать мяч вблизи центра. Управление инвертировано.
+    </div>
+
+    <div id="exercise">
+        Упражнение: удержи мяч вблизи центра. Потом отключи инверсию и попробуй снова. Потом найди режим, при котором мяч стабилен без твоего вмешательства. Или докажи, что такого режима нет.
+    </div>
+
+    <div id="hint-line">веди мышью. доска следует за курсором. инверсия.</div>
+
+    <div id="bottom-inner">
+        <div id="buttons">
+            <button onclick="action('invert')">инверсия</button>
+            <button class="reset" onclick="action('reset')">reset</button>
+        </div>
+        <div id="meta">
+            <span id="timer">:: 0.0s ::</span>
+            <span id="vector">VECTOR → ...</span>
+        </div>
+    </div>
+
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const field = document.getElementById('field');
+
+let sceneReady = false;
+function resize() {
+    const width = Math.max(1, Math.round(field.clientWidth));
+    const height = Math.max(1, Math.round(field.clientHeight));
+    if (canvas.width === width && canvas.height === height) return;
+    const previousWidth = canvas.width || width;
+    const previousHeight = canvas.height || height;
+    canvas.width = width;
+    canvas.height = height;
+    if (sceneReady) {
+        state.ballX = Math.max(-geometry().edge, Math.min(geometry().edge, state.ballX * width / previousWidth));
+    }
+}
+resize();
+window.addEventListener('resize', resize);
+if (typeof ResizeObserver !== 'undefined') new ResizeObserver(resize).observe(field);
+
+// ============================================
+// СОСТОЯНИЕ
+// ============================================
+const INITIAL_STATE = {
+    gravity: 0.010,
+    sensitivity: 1.0,
+    ballSize: 50,
+    inverted: true   // ИНВЕРСИЯ ВКЛЮЧЕНА ПО УМОЛЧАНИЮ
+};
+
+const state = {
+    boardAngle: 0,
+    targetAngle: 0,
+    ballX: 0,
+    ballVX: 0,
+    time: 0,
+    alive: true,
+    gravity: INITIAL_STATE.gravity,
+    sensitivity: INITIAL_STATE.sensitivity,
+    ballSize: INITIAL_STATE.ballSize,
+    inverted: INITIAL_STATE.inverted,
+    mouseX: 0,
+    mouseY: 0
+};
+
+// ============================================
+// КУРСОР
+// ============================================
+function steer(e) {
+    const rect = field.getBoundingClientRect();
+    state.mouseX = e.clientX - rect.left;
+    state.mouseY = e.clientY - rect.top;
+
+    const width = field.clientWidth;
+    const centerX = width / 2;
+    const dx = (state.mouseX - centerX) / (width / 2);
+
+    const sign = state.inverted ? -1 : 1;
+    state.targetAngle = Math.max(-0.30, Math.min(0.30, sign * dx * 0.30));
+}
+field.addEventListener('pointermove', steer);
+field.addEventListener('pointerdown', e => { field.setPointerCapture(e.pointerId); steer(e); });
+field.addEventListener('pointerleave', () => { state.targetAngle = 0; });
+field.addEventListener('pointerup', () => { state.targetAngle = 0; });
+field.addEventListener('pointercancel', () => { state.targetAngle = 0; });
+
+// ============================================
+// СБРОС
+// ============================================
+function resetBall() {
+    state.ballX = (Math.random() - 0.5) * 20;
+    state.ballVX = 0;
+    state.time = 0;
+}
+
+function resetAll() {
+    resetBall();
+    state.gravity = INITIAL_STATE.gravity;
+    state.sensitivity = INITIAL_STATE.sensitivity;
+    state.ballSize = INITIAL_STATE.ballSize;
+    state.inverted = INITIAL_STATE.inverted;
+    state.boardAngle = 0;
+    state.targetAngle = 0;
+}
+
+// ============================================
+// ФИЗИКА
+// ============================================
+function geometry() {
+    const scale = Math.min(1, canvas.width / 640, canvas.height / 420);
+    const halfLength = Math.min(canvas.width * 0.40, 480 * scale);
+    const radius = state.ballSize * scale;
+    return { scale, halfLength, radius, edge: Math.max(0, halfLength - radius) };
+}
+
+function step() {
+    const angleSpeed = 0.06 / state.sensitivity;
+    state.boardAngle += (state.targetAngle - state.boardAngle) * angleSpeed;
+
+    const accel = state.gravity * Math.sin(state.boardAngle) * state.sensitivity * 100;
+    state.ballVX += accel;
+
+    state.ballVX *= 0.999;
+
+    state.ballX += state.ballVX;
+
+    const edge = geometry().edge;
+
+    if (state.ballX > edge) {
+        state.ballX = edge;
+        state.ballVX = -Math.abs(state.ballVX) * 0.7;
+    }
+    if (state.ballX < -edge) {
+        state.ballX = -edge;
+        state.ballVX = Math.abs(state.ballVX) * 0.7;
+    }
+
+    state.time += 1 / 60;
+}
+
+// ============================================
+// ОТРИСОВКА
+// ============================================
+function draw() {
+    ctx.fillStyle = '#0d120d';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const cx = canvas.width / 2;
+    const cy = canvas.height * 0.68;
+    const dimensions = geometry();
+    const boardHalfLength = dimensions.halfLength;
+    const boardThickness = 4 * dimensions.scale;
+    const ballSize = dimensions.radius;
+
+    const triHalfWidth = 90 * dimensions.scale;
+    const triHeight = 90 * dimensions.scale;
+    const apexY = cy + 5 * dimensions.scale;
+    const baseY = apexY + triHeight;
+
+    ctx.strokeStyle = '#3a4a3a';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(cx - triHalfWidth, baseY);
+    ctx.lineTo(cx + triHalfWidth, baseY);
+    ctx.lineTo(cx, apexY);
+    ctx.closePath();
+    ctx.stroke();
+
+    ctx.fillStyle = 'rgba(58, 74, 58, 0.15)';
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(cx, apexY, 3, 0, Math.PI * 2);
+    ctx.fillStyle = '#6a8a6a';
+    ctx.fill();
+
+    ctx.save();
+    ctx.translate(cx, apexY);
+    ctx.rotate(state.boardAngle);
+
+    ctx.fillStyle = '#4a6a4a';
+    ctx.fillRect(-boardHalfLength, -boardThickness / 2, boardHalfLength * 2, boardThickness);
+
+    ctx.strokeStyle = '#0d120d';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(0, -boardThickness / 2);
+    ctx.lineTo(0, boardThickness / 2);
+    ctx.stroke();
+
+    const ballY = -boardThickness / 2 - ballSize;
+
+    const speedFactor = Math.min(1, Math.abs(state.ballVX) / 5);
+    const r = 100 + speedFactor * 155;
+    const g = 200 - speedFactor * 100;
+    const b = 100;
+
+    const gradient = ctx.createRadialGradient(
+        state.ballX, ballY, 0,
+        state.ballX, ballY, ballSize * 1.8
+    );
+    gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, 0.4)`);
+    gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
+
+    ctx.fillStyle = gradient;
+    ctx.beginPath();
+    ctx.arc(state.ballX, ballY, ballSize * 1.8, 0, Math.PI * 2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.arc(state.ballX, ballY, ballSize, 0, Math.PI * 2);
+    ctx.fillStyle = `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(200, 220, 200, 0.3)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.restore();
+
+    const stability = 1 - Math.min(1, Math.abs(state.ballX) / boardHalfLength);
+    const barWidth = Math.min(300 * dimensions.scale, canvas.width - 24);
+    const barX = cx - barWidth / 2;
+    const barY = baseY + 30 * dimensions.scale;
+
+    ctx.fillStyle = '#1a2a1a';
+    ctx.fillRect(barX, barY, barWidth, 4);
+
+    const cr = 100 + (1 - stability) * 155;
+    const cg = 100 + stability * 155;
+    ctx.fillStyle = `rgb(${Math.floor(cr)}, ${Math.floor(cg)}, 100)`;
+    ctx.fillRect(barX, barY, barWidth * stability, 4);
+}
+
+// ============================================
+// ВЕРДИКТ
+// ============================================
+function computeVector() {
+    const boardHalfLength = geometry().halfLength;
+    const posFactor = Math.abs(state.ballX) / boardHalfLength;
+    const speedFactor = Math.min(1, Math.abs(state.ballVX) / 5);
+
+    if (posFactor < 0.2 && speedFactor < 0.2) return 'STABLE';
+    if (posFactor < 0.5 && speedFactor < 0.5) return 'CRITICAL';
+    if (posFactor < 0.8) return 'UNSTABLE';
+    return 'CHAOS';
+}
+
+// ============================================
+// UI
+// ============================================
+const timerEl = document.getElementById('timer');
+const vectorEl = document.getElementById('vector');
+const hintEl = document.getElementById('hint-line');
+
+let hintTimeout = null;
+function showHint(text) {
+    if (hintTimeout) clearTimeout(hintTimeout);
+    hintEl.textContent = text;
+    hintEl.style.color = '#d0e8d0';
+    hintTimeout = setTimeout(() => {
+        hintEl.style.color = '#a8c8a8';
+    }, 3500);
+}
+
+function updateUI() {
+    timerEl.textContent = ':: ' + state.time.toFixed(1) + 's ::';
+    const vector = computeVector();
+    vectorEl.textContent = 'VECTOR → ' + vector;
+    vectorEl.style.color = {
+        STABLE: '#a8d0a8',
+        CRITICAL: '#d0d0a8',
+        UNSTABLE: '#d0a8a8',
+        CHAOS: '#d08888'
+    }[vector] || '#a8c8a8';
+}
+
+// ============================================
+// ДЕЙСТВИЯ
+// ============================================
+function action(type) {
+    if (type === 'invert') {
+        state.inverted = !state.inverted;
+        showHint(state.inverted ? 'инверсия включена.' : 'инверсия выключена.');
+    } else if (type === 'reset') {
+        resetAll();
+        showHint('система сброшена. инверсия: ' + (state.inverted ? 'вкл' : 'выкл'));
+    }
+    updateUI();
+}
+
+// ============================================
+// АНИМАЦИЯ
+// ============================================
+let frameCount = 0;
+function animate() {
+    step();
+    draw();
+
+    frameCount++;
+    if (frameCount % 10 === 0) {
+        updateUI();
+    }
+
+    requestAnimationFrame(animate);
+}
+
+resetBall();
+sceneReady = true;
+updateUI();
+animate();
+</script>
+
+</body>
+</html></html>

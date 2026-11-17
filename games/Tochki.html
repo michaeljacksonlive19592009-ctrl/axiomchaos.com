@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA::Site — DOTS</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+    font-family: 'Consolas', monospace;
+    background-color: #0a0a0a;
+    color: #e8e8e8;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================ */
+/* ИГРА                                          */
+/* ============================================ */
+#game-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: #0a0a0a;
+}
+
+#field {
+    flex: 1;
+    position: relative;
+    background: #0d120d;
+    overflow: hidden;
+    min-height: 0;
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#bottom-bar {
+    flex-shrink: 0;
+    background: #0d120d;
+    border-top: 1px solid #1a2a1a;
+    padding: 22px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 10;
+}
+
+#description-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    text-align: center;
+}
+
+#description {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #8ab08a;
+    text-align: center;
+    line-height: 1.65;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1a2a1a;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#exercise {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #6a8a6a;
+    text-align: center;
+    line-height: 1.6;
+    font-style: italic;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#hint-line {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #a8c8a8;
+    text-align: center;
+    min-height: 18px;
+    font-style: italic;
+    transition: color 0.3s;
+}
+
+#bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 6px;
+}
+
+#buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+button {
+    background: #111611;
+    border: 1px solid #2a3a2a;
+    border-radius: 4px;
+    color: #8ab08a;
+    padding: 10px 14px;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+button:hover {
+    background: #1a201a;
+    border-color: #4a6a4a;
+    color: #b8d0b8;
+}
+
+button:active {
+    background: #202820;
+    transform: scale(0.97);
+}
+
+button.primary {
+    border-color: #4a6a4a;
+    color: #a8c8a8;
+}
+
+button.primary:hover {
+    background: #1a2a1a;
+    border-color: #6a9a6a;
+    color: #d0e8d0;
+}
+
+button.reset {
+    border-color: #6a3a3a;
+    color: #d0a8a8;
+}
+
+button.reset:hover {
+    background: #2a1a1a;
+    border-color: #8a4a4a;
+    color: #f0c8c8;
+}
+
+#meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    white-space: nowrap;
+}
+
+#vector {
+    color: #a8c8a8;
+    font-weight: bold;
+}
+
+#history {
+    display: flex;
+    gap: 10px;
+    color: #3a4a3a;
+    overflow: hidden;
+}
+
+.history-line {
+    color: #4a6a4a;
+}
+
+@media (max-width: 1000px) {
+    #bottom-bar { padding: 16px 16px 18px; }
+    #description, #exercise { font-size: 11px; }
+    button { font-size: 10px; padding: 8px 10px; }
+}
+</style>
+<style data-game-viewport>
+/* Standalone game viewport; no website styles are loaded. */
+html,body{height:100%;height:100dvh;min-width:0}
+body{overflow:hidden}
+#game-container{min-width:0;min-height:0}
+#field,#play-field{min-width:0;min-height:min(180px,45dvh)}
+#canvas{touch-action:none}
+#bottom-bar{max-height:48dvh;overflow-y:auto;overscroll-behavior:contain;padding:clamp(10px,2vh,22px) clamp(12px,3vw,32px);gap:clamp(7px,1.3vh,14px)}
+#bottom-inner,#buttons,#meta{flex-wrap:wrap;min-width:0}
+#meta{white-space:normal}
+#buttons button{min-height:40px}
+#history,#history-bar{max-width:100%}
+.side-number{font-size:clamp(40px,18vw,140px)}
+#panel{min-height:0;min-width:0}
+#panel-header,#input-bar{flex-shrink:0}
+#questions-list{min-height:0}
+#answer{max-width:calc(100% - 24px)}
+@media(max-width:600px){
+ #game-container:has(#panel){flex-direction:column}
+ #panel{order:1;width:100%;flex:0 0 42dvh;border-right:0;border-top:1px solid #1a2a1a}
+ #play-field{order:0;flex:1;touch-action:none}
+ #questions-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:6px;padding:8px}
+ #panel-header,#input-bar{padding:8px 12px}
+ .q-btn{min-width:0;overflow-wrap:anywhere}
+ #answer{padding:12px;font-size:15px}
+}
+
+</style></head>
+<body>
+
+<!-- ВЕРХНЯЯ ПЛАШКА — как у мухи -->
+<!-- ПОДШАПКА — как у мухи -->
+<!-- ИГРА -->
+<div id="game-container">
+
+    <div id="field">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="bottom-bar">
+
+        <div id="description-title">:: Игра из теории игр и топологии ::</div>
+
+        <div id="description">
+            2000 точек. У каждой — сила, скорость, склонность объединяться, память, агрессия, доверие. Ты не видишь чисел. Ты видишь только поведение. Каждое правило меняет структуру. Через 20 циклов система придёт к одному из состояний: коалиции, фрагментация, монополия, хаос.
+        </div>
+
+        <div id="exercise">
+            Упражнение: доведи систему до устойчивых коалиций. Потом нажми «разделяться» — и посмотри, распадётся ли структура. Потом найди правило, при котором система стабильна. Или докажи, что такого правила нет.
+        </div>
+
+        <div id="hint-line">нажми любую кнопку. наблюдай.</div>
+
+        <div id="bottom-inner">
+            <div id="buttons">
+                <button onclick="action('trust')">доверять</button>
+                <button onclick="action('distrust')">не доверять</button>
+                <button onclick="action('unite')">объединяться</button>
+                <button onclick="action('divide')">разделяться</button>
+                <button class="primary" onclick="action('next')">next cycle</button>
+                <button class="reset" onclick="action('reset')">reset</button>
+            </div>
+            <div id="meta">
+                <span id="generationEl">:: cycle 0 ::</span>
+                <span id="vector">VECTOR → ...</span>
+                <div id="history"></div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const field = document.getElementById('field');
+
+let sceneReady = false;
+function resize() {
+    const width = Math.max(1, Math.round(field.clientWidth));
+    const height = Math.max(1, Math.round(field.clientHeight));
+    if (canvas.width === width && canvas.height === height) return;
+    const previousWidth = canvas.width || width;
+    const previousHeight = canvas.height || height;
+    canvas.width = width;
+    canvas.height = height;
+    if (sceneReady) {
+        for (const dot of state.dots) {
+            dot.x = Math.max(0, Math.min(width, dot.x * width / previousWidth));
+            dot.y = Math.max(0, Math.min(height, dot.y * height / previousHeight));
+        }
+    }
+}
+resize();
+window.addEventListener('resize', resize);
+if (typeof ResizeObserver !== 'undefined') new ResizeObserver(resize).observe(field);
+
+const NUM_DOTS = 2000;
+
+const INITIAL_RULE = {
+    trustBias: 0.3,
+    uniteBias: 0.2,
+    distrustBias: 0,
+    divideBias: 0
+};
+
+const state = {
+    dots: [],
+    cycle: 0,
+    rule: { ...INITIAL_RULE },
+    history: []
+};
+
+function createDot() {
+    return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        strength: 0.3 + Math.random() * 0.7,
+        speed: 0.3 + Math.random() * 0.7,
+        affinity: Math.random(),
+        memory: Math.random(),
+        aggression: Math.random(),
+        trust: 0.3 + Math.random() * 0.7,
+        group: -1,
+        size: 1 + Math.random() * 1.2
+    };
+}
+
+function initDots() {
+    state.dots = [];
+    for (let i = 0; i < NUM_DOTS; i++) {
+        state.dots.push(createDot());
+    }
+}
+
+function dotColor(dot) {
+    const t = dot.trust;
+    const a = dot.aggression;
+    const f = dot.affinity;
+
+    let r = 100 + a * 155;
+    let g = 100 + t * 155;
+    let b = 100 + (1 - f) * 100;
+
+    return `rgb(${Math.floor(r)}, ${Math.floor(g)}, ${Math.floor(b)})`;
+}
+
+const GRID_SIZE = 60;
+
+function buildGrid() {
+    const grid = new Map();
+    for (let i = 0; i < state.dots.length; i++) {
+        const d = state.dots[i];
+        const gx = Math.floor(d.x / GRID_SIZE);
+        const gy = Math.floor(d.y / GRID_SIZE);
+        const key = gx + ',' + gy;
+        if (!grid.has(key)) grid.set(key, []);
+        grid.get(key).push(i);
+    }
+    return grid;
+}
+
+function getNeighbors(grid, d) {
+    const gx = Math.floor(d.x / GRID_SIZE);
+    const gy = Math.floor(d.y / GRID_SIZE);
+    const result = [];
+    for (let dx = -1; dx <= 1; dx++) {
+        for (let dy = -1; dy <= 1; dy++) {
+            const key = (gx + dx) + ',' + (gy + dy);
+            const bucket = grid.get(key);
+            if (bucket) {
+                for (const idx of bucket) result.push(idx);
+            }
+        }
+    }
+    return result;
+}
+
+function step() {
+    const dots = state.dots;
+    const grid = buildGrid();
+
+    for (const d of dots) {
+        d.fx = 0;
+        d.fy = 0;
+    }
+
+    for (let i = 0; i < dots.length; i++) {
+        const a = dots[i];
+        const neighbors = getNeighbors(grid, a);
+
+        for (const j of neighbors) {
+            if (j <= i) continue;
+            const b = dots[j];
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            const distSq = dx * dx + dy * dy;
+            if (distSq < 1 || distSq > 3600) continue;
+            const dist = Math.sqrt(distSq);
+
+            const trustPull = (a.trust + b.trust) / 2 * state.rule.trustBias;
+            const affinityPull = (a.affinity + b.affinity) / 2 * state.rule.uniteBias;
+            const aggroPush = (a.aggression + b.aggression) / 2;
+            const push = aggroPush * 0.5 + state.rule.distrustBias * 0.5 + state.rule.divideBias * 0.5;
+            const pull = trustPull + affinityPull;
+
+            const force = (pull - push) * 0.04;
+            const falloff = Math.max(0, 1 - dist / 60);
+
+            const fx = (dx / dist) * force * falloff;
+            const fy = (dy / dist) * force * falloff;
+
+            a.fx += fx;
+            a.fy += fy;
+            b.fx -= fx;
+            b.fy -= fy;
+        }
+    }
+
+    for (const d of dots) {
+        d.fx += (Math.random() - 0.5) * 0.2;
+        d.fy += (Math.random() - 0.5) * 0.2;
+
+        d.vx += d.fx * 0.1;
+        d.vy += d.fy * 0.1;
+
+        const speed = Math.sqrt(d.vx * d.vx + d.vy * d.vy);
+        const maxSpeed = 1.2;
+        if (speed > maxSpeed) {
+            d.vx = (d.vx / speed) * maxSpeed;
+            d.vy = (d.vy / speed) * maxSpeed;
+        }
+
+        d.vx *= 0.97;
+        d.vy *= 0.97;
+
+        d.x += d.vx * d.speed;
+        d.y += d.vy * d.speed;
+
+        if (d.x < 0) { d.x = 0; d.vx = Math.abs(d.vx); }
+        if (d.x > canvas.width) { d.x = canvas.width; d.vx = -Math.abs(d.vx); }
+        if (d.y < 0) { d.y = 0; d.vy = Math.abs(d.vy); }
+        if (d.y > canvas.height) { d.y = canvas.height; d.vy = -Math.abs(d.vy); }
+    }
+}
+
+function draw() {
+    ctx.fillStyle = '#0d120d';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    for (const d of state.dots) {
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+        ctx.fillStyle = dotColor(d);
+        ctx.fill();
+    }
+}
+
+function computeVector() {
+    const dots = state.dots;
+
+    const avgTrust = dots.reduce((s, d) => s + d.trust, 0) / dots.length;
+    const avgAggro = dots.reduce((s, d) => s + d.aggression, 0) / dots.length;
+    const avgAffinity = dots.reduce((s, d) => s + d.affinity, 0) / dots.length;
+
+    const grid = buildGrid();
+    let strongEdges = 0;
+    for (let i = 0; i < dots.length; i++) {
+        const a = dots[i];
+        const neighbors = getNeighbors(grid, a);
+        for (const j of neighbors) {
+            if (j <= i) continue;
+            const b = dots[j];
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            const distSq = dx * dx + dy * dy;
+            if (distSq < 3600) {
+                const trust = (a.trust + b.trust) / 2;
+                const aggro = (a.aggression + b.aggression) / 2;
+                if (trust - aggro > 0.3) strongEdges++;
+            }
+        }
+    }
+
+    const edgesPerDot = strongEdges / dots.length;
+
+    if (edgesPerDot > 3 && avgTrust > 0.6) return 'COALITIONS';
+    if (edgesPerDot < 0.5 && avgAggro > 0.6) return 'FRAGMENTATION';
+    if (edgesPerDot < 0.5 && avgAggro < 0.4 && avgAffinity < 0.4) return 'MONOPOLY';
+    if (avgAffinity > 0.7 && avgTrust > 0.5) return 'UNIFICATION';
+    return 'CHAOS';
+}
+
+const generationEl = document.getElementById('generationEl');
+const vectorEl = document.getElementById('vector');
+const hintEl = document.getElementById('hint-line');
+const historyEl = document.getElementById('history');
+
+let hintTimeout = null;
+function showHint(text) {
+    if (hintTimeout) clearTimeout(hintTimeout);
+    hintEl.textContent = text;
+    hintEl.style.color = '#d0e8d0';
+    hintTimeout = setTimeout(() => {
+        hintEl.style.color = '#a8c8a8';
+    }, 3500);
+}
+
+function updateVectorColor() {
+    const vector = computeVector();
+    vectorEl.textContent = 'VECTOR → ' + vector;
+    vectorEl.style.color = {
+        COALITIONS: '#a8d0a8',
+        FRAGMENTATION: '#d0a8a8',
+        MONOPOLY: '#d0d0a8',
+        UNIFICATION: '#a8d0d0',
+        CHAOS: '#888'
+    }[vector] || '#a8c8a8';
+}
+
+function updateUI() {
+    generationEl.textContent = ':: cycle ' + state.cycle + ' ::';
+    updateVectorColor();
+
+    const vector = computeVector();
+    const line = document.createElement('div');
+    line.className = 'history-line';
+    line.textContent = `c${state.cycle}:${vector.slice(0, 4)}`;
+    historyEl.appendChild(line);
+    while (historyEl.children.length > 5) {
+        historyEl.removeChild(historyEl.firstChild);
+    }
+}
+
+function action(type) {
+    if (type === 'trust') {
+        state.rule.trustBias = Math.min(1, state.rule.trustBias + 0.15);
+        for (const d of state.dots) d.trust = Math.min(1, d.trust + 0.1);
+        showHint('доверие↑: точки тянутся друг к другу.');
+    } else if (type === 'distrust') {
+        state.rule.distrustBias = Math.min(1, state.rule.distrustBias + 0.15);
+        state.rule.trustBias = Math.max(0, state.rule.trustBias - 0.1);
+        for (const d of state.dots) d.trust = Math.max(0, d.trust - 0.1);
+        showHint('доверие↓: точки отталкиваются.');
+    } else if (type === 'unite') {
+        state.rule.uniteBias = Math.min(1, state.rule.uniteBias + 0.2);
+        for (const d of state.dots) d.affinity = Math.min(1, d.affinity + 0.15);
+        showHint('объединение↑: структура уплотняется.');
+    } else if (type === 'divide') {
+        state.rule.divideBias = Math.min(1, state.rule.divideBias + 0.2);
+        state.rule.uniteBias = Math.max(0, state.rule.uniteBias - 0.1);
+        for (const d of state.dots) d.affinity = Math.max(0, d.affinity - 0.15);
+        showHint('разделение↑: структура распадается.');
+    } else if (type === 'next') {
+        state.cycle++;
+        showHint('цикл ' + state.cycle + ': система перестраивается.');
+    } else if (type === 'reset') {
+        initDots();
+        state.cycle = 0;
+        state.rule = { ...INITIAL_RULE };
+        historyEl.innerHTML = '';
+        showHint('система сброшена. хаос восстановлен. цикл 0.');
+    }
+
+    updateUI();
+}
+
+let frameCount = 0;
+function animate() {
+    step();
+    draw();
+
+    frameCount++;
+    if (frameCount % 30 === 0) {
+        updateVectorColor();
+    }
+
+    requestAnimationFrame(animate);
+}
+
+initDots();
+sceneReady = true;
+updateUI();
+animate();
+
+setInterval(() => {
+    state.cycle++;
+    updateUI();
+}, 8000);
+</script>
+
+</body>
+</html></html>

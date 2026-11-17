@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>USA::GAME::BLACK_WHITE</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+body {
+    font-family: 'Consolas', monospace;
+    background: #0a0a0a;
+    color: #e8e8e8;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ============================================ */
+/* ПОЛЕ — ДВЕ ВЕРТИКАЛЬНЫЕ ПОЛОСЫ               */
+/* ============================================ */
+#field {
+    flex: 1;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    min-height: 0;
+}
+
+#black-side {
+    background: #111111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+#white-side {
+    background: #e8e8e8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.side-number {
+    font-size: 140px;
+    font-weight: bold;
+    letter-spacing: -4px;
+    line-height: 1;
+    user-select: none;
+    transition: opacity 0.3s;
+}
+
+#black-side .side-number {
+    color: #3a4a3a;
+    text-shadow: 0 0 40px rgba(106, 138, 106, 0.2);
+}
+
+#white-side .side-number {
+    color: #8a9a8a;
+    text-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+}
+
+.side-label {
+    position: absolute;
+    bottom: 30px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    opacity: 0.6;
+}
+
+#white-side .side-label {
+    color: #6a7a6a;
+}
+
+#field::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 1px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.15);
+    transform: translateX(-0.5px);
+    pointer-events: none;
+    z-index: 2;
+    transition: left 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+/* ============================================ */
+/* НИЖНЯЯ ПОЛОСА — УВЕЛИЧЕНА                     */
+/* ============================================ */
+#bottom-bar {
+    flex-shrink: 0;
+    background: #0d120d;
+    border-top: 1px solid #1a2a1a;
+    padding: 22px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 10;
+}
+
+/* Заголовок описания */
+#description-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    text-align: center;
+}
+
+/* Текст описания */
+#description {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #8ab08a;
+    text-align: center;
+    line-height: 1.65;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1a2a1a;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Упражнение */
+#exercise {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #6a8a6a;
+    text-align: center;
+    line-height: 1.6;
+    font-style: italic;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* Подсказка при клике */
+#hint-line {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #a8c8a8;
+    text-align: center;
+    min-height: 18px;
+    font-style: italic;
+    transition: color 0.3s;
+}
+
+/* Строка с кнопками */
+#bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 6px;
+}
+
+#buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+button {
+    background: #111611;
+    border: 1px solid #2a3a2a;
+    border-radius: 4px;
+    color: #8ab08a;
+    padding: 10px 16px;
+    font-family: 'Consolas', monospace;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+button:hover {
+    background: #1a201a;
+    border-color: #4a6a4a;
+    color: #b8d0b8;
+}
+
+button:active {
+    background: #202820;
+    transform: scale(0.97);
+}
+
+button.primary {
+    border-color: #4a6a4a;
+    color: #a8c8a8;
+}
+
+button.primary:hover {
+    background: #1a2a1a;
+    border-color: #6a9a6a;
+    color: #d0e8d0;
+}
+
+#meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    white-space: nowrap;
+}
+
+#history {
+    display: flex;
+    gap: 10px;
+    color: #3a4a3a;
+    overflow: hidden;
+}
+
+.history-line {
+    color: #4a6a4a;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><style data-game-viewport>
+/* Standalone game viewport; no website styles are loaded. */
+html,body{height:100%;height:100dvh;min-width:0}
+body{overflow:hidden}
+#game-container{min-width:0;min-height:0}
+#field,#play-field{min-width:0;min-height:min(180px,45dvh)}
+#canvas{touch-action:none}
+#bottom-bar{max-height:48dvh;overflow-y:auto;overscroll-behavior:contain;padding:clamp(10px,2vh,22px) clamp(12px,3vw,32px);gap:clamp(7px,1.3vh,14px)}
+#bottom-inner,#buttons,#meta{flex-wrap:wrap;min-width:0}
+#meta{white-space:normal}
+#buttons button{min-height:40px}
+#history,#history-bar{max-width:100%}
+.side-number{font-size:clamp(40px,18vw,140px)}
+#panel{min-height:0;min-width:0}
+#panel-header,#input-bar{flex-shrink:0}
+#questions-list{min-height:0}
+#answer{max-width:calc(100% - 24px)}
+@media(max-width:600px){
+ #game-container:has(#panel){flex-direction:column}
+ #panel{order:1;width:100%;flex:0 0 42dvh;border-right:0;border-top:1px solid #1a2a1a}
+ #play-field{order:0;flex:1;touch-action:none}
+ #questions-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:6px;padding:8px}
+ #panel-header,#input-bar{padding:8px 12px}
+ .q-btn{min-width:0;overflow-wrap:anywhere}
+ #answer{padding:12px;font-size:15px}
+}
+
+</style></head>
+<body>
+
+<div id="field">
+    <div id="black-side" style="width: 40%;">
+        <div class="side-number" id="blackNumber">40</div>
+        <div class="side-label">black</div>
+    </div>
+    <div id="white-side" style="width: 60%;">
+        <div class="side-number" id="whiteNumber">60</div>
+        <div class="side-label">white</div>
+    </div>
+</div>
+
+<div id="bottom-bar">
+
+    <div id="description-title">:: Классическая игра из теории игр ::</div>
+
+    <div id="description">
+        Чёрное и белое — два состояния системы. Изначально 40 против 60. Каждое правило меняет переход между состояниями. Кооперация тянет к балансу. Конкуренция усиливает большинство. Смена правила перестраивает саму логику перехода. Поколение добавляет случайный дрейф. Никакой цели нет — есть только правило и его следствие.
+    </div>
+
+    <div id="exercise">
+        Упражнение: доведи систему до 50:50. Потом измени правило и посмотри, как она уходит от баланса. Потом найди правило, при котором баланс устойчив. Или докажи, что такого правила нет.
+    </div>
+
+    <div id="hint-line">нажми любую кнопку. наблюдай.</div>
+
+    <div id="bottom-inner">
+        <div id="buttons">
+            <button onclick="action('cooperation')">+ cooperation</button>
+            <button onclick="action('competition')">+ competition</button>
+            <button onclick="action('change')">change rule</button>
+            <button class="primary" onclick="action('next')">next generation</button>
+        </div>
+        <div id="meta">
+            <span id="generationEl">:: gen 0 ::</span>
+            <div id="history"></div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+// ============================================
+// СОСТОЯНИЕ
+// ============================================
+const state = {
+    black: 40,
+    white: 60,
+    generation: 0,
+    rule: {
+        cooperationBias: 0.05,
+        competitionBias: 0.05,
+        drift: 0.02
+    }
+};
+
+const blackSide = document.getElementById('black-side');
+const whiteSide = document.getElementById('white-side');
+const blackNumber = document.getElementById('blackNumber');
+const whiteNumber = document.getElementById('whiteNumber');
+const generationEl = document.getElementById('generationEl');
+const hintEl = document.getElementById('hint-line');
+const historyEl = document.getElementById('history');
+
+// ============================================
+// ОТРИСОВКА
+// ============================================
+const styleEl = document.createElement('style');
+document.head.appendChild(styleEl);
+
+function render() {
+    const total = state.black + state.white;
+    const blackPct = (state.black / total) * 100;
+    const whitePct = 100 - blackPct;
+
+    blackSide.style.width = blackPct + '%';
+    whiteSide.style.width = whitePct + '%';
+
+    styleEl.textContent = `#field::after { left: ${blackPct}%; }`;
+
+    blackNumber.textContent = Math.round(blackPct);
+    whiteNumber.textContent = Math.round(whitePct);
+
+    generationEl.textContent = ':: gen ' + state.generation + ' ::';
+}
+
+// ============================================
+// ПОДСКАЗКА
+// ============================================
+let hintTimeout = null;
+function showHint(text) {
+    if (hintTimeout) clearTimeout(hintTimeout);
+    hintEl.textContent = text;
+    hintEl.style.color = '#d0e8d0';
+    hintTimeout = setTimeout(() => {
+        hintEl.style.color = '#a8c8a8';
+    }, 3500);
+}
+
+// ============================================
+// ИСТОРИЯ
+// ============================================
+function addHistory() {
+    const total = state.black + state.white;
+    const blackPct = (state.black / total) * 100;
+    const line = document.createElement('div');
+    line.className = 'history-line';
+    line.textContent = `${blackPct.toFixed(0)}:${(100 - blackPct).toFixed(0)}`;
+    historyEl.appendChild(line);
+    while (historyEl.children.length > 5) {
+        historyEl.removeChild(historyEl.firstChild);
+    }
+}
+
+// ============================================
+// ДЕЙСТВИЯ
+// ============================================
+function clamp(x, min, max) {
+    return Math.max(min, Math.min(max, x));
+}
+
+function action(type) {
+    if (type === 'cooperation') {
+        const total = state.black + state.white;
+        const target = total / 2;
+        const bias = state.rule.cooperationBias;
+        state.black += (target - state.black) * bias;
+        state.white += (target - state.white) * bias;
+        showHint('кооперация: система движется к балансу. слабое правило.');
+    } else if (type === 'competition') {
+        const bias = state.rule.competitionBias;
+        if (state.black > state.white) {
+            state.black += state.black * bias;
+            state.white -= state.white * bias;
+        } else {
+            state.white += state.white * bias;
+            state.black -= state.black * bias;
+        }
+        state.black = clamp(state.black, 1, 999);
+        state.white = clamp(state.white, 1, 999);
+        showHint('конкуренция: победитель усиливается. сильное правило.');
+    } else if (type === 'change') {
+        state.rule.cooperationBias = 0.02 + Math.random() * 0.15;
+        state.rule.competitionBias = 0.02 + Math.random() * 0.15;
+        state.rule.drift = 0.01 + Math.random() * 0.05;
+        showHint('правило изменено. bias перестроен. следи за исходом.');
+    } else if (type === 'next') {
+        const drift = state.rule.drift;
+        const total = state.black + state.white;
+        const noise = (Math.random() - 0.5) * 2 * drift * total;
+        state.black += noise;
+        state.white -= noise;
+        state.black = clamp(state.black, 1, 999);
+        state.white = clamp(state.white, 1, 999);
+        state.generation++;
+        showHint('поколение ' + state.generation + ': случайный дрейф. без правила.');
+    }
+
+    render();
+    addHistory();
+}
+
+// ============================================
+// ИНИЦИАЛИЗАЦИЯ
+// ============================================
+render();
+addHistory();
+
+// Автодрейф каждые 3 секунды
+setInterval(() => {
+    const total = state.black + state.white;
+    const noise = (Math.random() - 0.5) * 2 * state.rule.drift * total * 0.3;
+    state.black += noise;
+    state.white -= noise;
+    state.black = clamp(state.black, 1, 999);
+    state.white = clamp(state.white, 1, 999);
+    render();
+}, 3000);
+</script>
+
+</body>
+</html></html>

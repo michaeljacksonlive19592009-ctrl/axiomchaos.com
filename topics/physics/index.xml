@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>Физика on USA.site</title>
+		<link>https://example.invalid/topics/physics/</link>
+		<description>Recent content in Физика on USA.site</description>
+		<generator>Hugo</generator>
+		<language>ru</language>
+		
+		
+		
+		
+			<lastBuildDate>Thu, 12 Nov 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="https://example.invalid/topics/physics/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>USA-Meta: мета-язык, ядро, мост к физике</title>
+				<link>https://example.invalid/articles/meta/</link>
+				<pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/meta/</guid>
+				<description>&lt;p&gt;&lt;strong&gt;Единый документ:&lt;/strong&gt; мета-язык, математическое ядро и мост к физике. Iteration 8 — интеграция результатов Level I–III.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;До сих пор документ рассматривался изнутри — как математика, физика, кибернетика, проверяя каждый слой на корректность. Это был анализ содержания. Теперь задача иная. Этот документ рассматривается как мета-документ — то есть как язык, как онтологическая рамка, как инструмент, который позволяет говорить о том, о чём наука раньше не могла говорить не потому, что запрещено, а потому что не было языка.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Физика вращения галактик — контроль импорта</title>
+				<link>https://example.invalid/articles/import-780c7544bc755f58/</link>
+				<pubDate>Thu, 12 Nov 2026 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/import-780c7544bc755f58/</guid>
+				<description>&lt;p&gt;Этот контрольный материал проверяет, как физика вращения галактик представлена в двуязычной сборке. Значения ниже приведены только для проверки формата.&lt;/p&gt;&#xA;&lt;h2 id=&#34;проверка-записи&#34;&gt;Проверка записи&lt;/h2&gt;&lt;p&gt;Линейная скорость обозначена как &lt;span class=&#34;katex&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;v&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;v&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;. Для учебного примера используем равенство&lt;/p&gt;&#xA;&lt;span class=&#34;katex&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34; display=&#34;block&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;msup&gt;&lt;mi&gt;v&lt;/mi&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;G&lt;/mi&gt;&lt;mi&gt;M&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;/&lt;/mi&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;mi mathvariant=&#34;normal&#34;&gt;.&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;v^{2} = GM/r.&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;h2 id=&#34;проверка-таблицы&#34;&gt;Проверка таблицы&lt;/h2&gt;&lt;div class=&#34;table-scroll&#34; role=&#34;region&#34; aria-label=&#34;Таблица исследования&#34; tabindex=&#34;0&#34;&gt;&lt;table&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Величина&lt;/th&gt;&lt;th&gt;Обозначение&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;Скорость&lt;/td&gt;&lt;td&gt;&lt;span class=&#34;katex&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;v&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;v&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Радиус&lt;/td&gt;&lt;td&gt;&lt;span class=&#34;katex&#34;&gt;&lt;math xmlns=&#34;http://www.w3.org/1998/Math/MathML&#34;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;r&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&#34;application/x-tex&#34;&gt;r&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;h2 id=&#34;порядок-проверки&#34;&gt;Порядок проверки&lt;/h2&gt;&lt;ol&gt;&#xA;&lt;li&gt;Сравнить формулы в обеих версиях.&lt;/li&gt;&#xA;&lt;li&gt;Открыть &lt;a href=&#34;https://gohugo.io/&#34;&gt;документацию Hugo&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;/ol&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Проверить единственную фотографию.&lt;/li&gt;&#xA;&lt;li&gt;Проверить переход к переводу.&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+			</item>
+			<item>
+				<title>Как цикл записывает себя в условия следующего цикла: универсальный механизм, который работает везде</title>
+				<link>https://example.invalid/articles/cycle-into-conditions/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/cycle-into-conditions/</guid>
+				<description>&lt;p&gt;Мы привыкли думать о памяти как о чем-то, что есть только у человека или у животных. Но если посмотреть на систему USA, память — это частный случай более общего механизма. Любая система, которая проходит через цикл, должна каким-то образом записать последствия этого цикла в условия следующего. Иначе накопленного опыта вообще не существовало бы.&lt;/p&gt;&#xA;&lt;p&gt;В этой статье мы разберем, как этот механизм работает у человека, у общества, у науки и даже у галактик. И почему вопрос «где у галактики память» точнее заменить вопросом «какими физическими операциями цикл записывает себя в условия следующего цикла».&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Проверка на реальных данных: маршрут</title>
+				<link>https://example.invalid/articles/demo-question/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/demo-question/</guid>
+				<description>&lt;h2 id=&#34;назначение-примера&#34;&gt;Назначение примера&lt;/h2&gt;&lt;p&gt;Это &lt;strong&gt;тестовый документ интерфейса USA-003&lt;/strong&gt;. Эксперименты в рамках разработки сайта не проводились.&lt;/p&gt;&#xA;&lt;h2 id=&#34;открытая-задача&#34;&gt;Открытая задача&lt;/h2&gt;&lt;p&gt;Раздел «Открытые вопросы» исходного Meta.md содержит задачу проверки на реальной базе SPARC. Перейдите к Meta через блок связей, чтобы прочитать точную формулировку и ограничения.&lt;/p&gt;&#xA;&lt;h2 id=&#34;материалы&#34;&gt;Материалы&lt;/h2&gt;&lt;p&gt;Здесь могут размещаться данные и протокол воспроизведения. В текущей версии таких материалов нет.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Рождение космологии. Начало</title>
+				<link>https://example.invalid/articles/birth-of-cosmology/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/birth-of-cosmology/</guid>
+				<description>&lt;p&gt;&lt;em&gt;Я не начинал с намерения построить космологию. У меня не было лаборатории, физической школы, заранее написанной системы и плана, по которому я собирался объяснить Вселенную. У меня были старые образы, привычка разбирать сложное до простого механизма, дизайнерское недоверие к лишним деталям и очень человеческий вопрос: если всё вокруг настолько разное, что же в нём всё-таки повторяется?&lt;/em&gt;&lt;/p&gt;&#xA;&lt;div class=&#34;table-scroll imported-table&#34; role=&#34;region&#34; aria-label=&#34;Таблица исходной статьи&#34; tabindex=&#34;0&#34;&gt;&lt;table&gt;&#xA;&lt;colgroup&gt;&#xA;&lt;col style=&#34;width: 100%&#34; /&gt;&#xA;&lt;/colgroup&gt;&#xA;&lt;thead&gt;&#xA;&lt;tr class=&#34;header&#34;&gt;&#xA;&lt;th&gt;&lt;p&gt;КАК ЧИТАТЬ ЭТОТ ТЕКСТ&lt;/p&gt;&#xA;&lt;p&gt;Это не доказательство физической космологии. Это документация рождения модели: что я помнил, что предположил, что достроил, где застрял, что подхватила нейросеть, какие понятия оказались устойчивыми и во что они позднее превратились. Мне важно сохранить не только результат, но и траекторию.&lt;/p&gt;&lt;/th&gt;&#xA;&lt;/tr&gt;&#xA;&lt;/thead&gt;&#xA;&lt;tbody&gt;&#xA;&lt;/tbody&gt;&#xA;&lt;/table&gt;&#xA;&lt;/div&gt;</description>
+			</item>
+			<item>
+				<title>Сон и галактики: общий оператор превращения истории в условия будущего</title>
+				<link>https://example.invalid/articles/sleep-and-galaxies/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/sleep-and-galaxies/</guid>
+				<description>&lt;p&gt;Мы уже говорили о том, что сон — это оператор, который сжимает прошлое и расширяет будущее. Но у этого оператора есть более общий смысл. Он работает не только у человека. Если посмотреть на систему USA, сон и галактики оказываются связанными не метафорой, а структурой. Прошлые взаимодействия превращаются в физическую переработку и сохранение следа, затем в измененное текущее состояние и измененные будущие переходы.&lt;/p&gt;&#xA;&lt;p&gt;У человека мы знаем один набор физических механизмов этого преобразования. У галактики он должен быть совершенно другим. Но вопрос один. Каким физическим процессом история становится условиями будущего? В этой статье мы разберем эту параллель и увидим, почему сон — это не просто отдых, а один из самых чистых наблюдаемых случаев универсального оператора.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Тест: Архив исследовательской версии</title>
+				<link>https://example.invalid/articles/demo-archive/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/demo-archive/</guid>
+				<description>&lt;h2 id=&#34;назначение&#34;&gt;Назначение&lt;/h2&gt;&lt;p&gt;Это явно обозначенный тестовый документ USA-003. Он показывает карточку, область фотографии и переход к полному материалу.&lt;/p&gt;&#xA;&lt;h2 id=&#34;содержание&#34;&gt;Содержание&lt;/h2&gt;&lt;p&gt;Реальные данные для этой публикации не предоставлены. Полный исследовательский текст находится в Meta.md; перейдите к нему через меню «Понять» или граф связей.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Тест: Источники и воспроизводимость</title>
+				<link>https://example.invalid/articles/demo-source/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/demo-source/</guid>
+				<description>&lt;h2 id=&#34;назначение&#34;&gt;Назначение&lt;/h2&gt;&lt;p&gt;Это явно обозначенный тестовый документ USA-003. Он показывает карточку, область фотографии и переход к полному материалу.&lt;/p&gt;&#xA;&lt;h2 id=&#34;содержание&#34;&gt;Содержание&lt;/h2&gt;&lt;p&gt;Реальные данные для этой публикации не предоставлены. Полный исследовательский текст находится в Meta.md; перейдите к нему через меню «Понять» или граф связей.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Тест: Модель и условия применимости</title>
+				<link>https://example.invalid/articles/demo-model/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/demo-model/</guid>
+				<description>&lt;h2 id=&#34;назначение&#34;&gt;Назначение&lt;/h2&gt;&lt;p&gt;Это явно обозначенный тестовый документ USA-003. Он показывает карточку, область фотографии и переход к полному материалу.&lt;/p&gt;&#xA;&lt;h2 id=&#34;содержание&#34;&gt;Содержание&lt;/h2&gt;&lt;p&gt;Реальные данные для этой публикации не предоставлены. Полный исследовательский текст находится в Meta.md; перейдите к нему через меню «Понять» или граф связей.&lt;/p&gt;</description>
+			</item>
+			<item>
+				<title>Тест: Ограничения интерпретации</title>
+				<link>https://example.invalid/articles/demo-limits/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/demo-limits/</guid>
+				<description>&lt;h2 id=&#34;назначение&#34;&gt;Назначение&lt;/h2&gt;&lt;p&gt;Это явно обозначенный тестовый документ USA-003. Он показывает карточку, область фотографии и переход к полному материалу.&lt;/p&gt;&#xA;&lt;h2 id=&#34;содержание&#34;&gt;Содержание&lt;/h2&gt;&lt;p&gt;Реальные данные для этой публикации не предоставлены. Полный исследовательский текст находится в Meta.md; перейдите к нему через меню «Понять» или граф связей.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

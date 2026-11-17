@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA::GAME::MEMORY</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+    font-family: 'Consolas', monospace;
+    background-color: #0a0a0a;
+    color: #e8e8e8;
+    display: flex;
+    flex-direction: column;
+}
+
+#game-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: #0a0a0a;
+}
+
+#field {
+    flex: 1;
+    position: relative;
+    background: #0d120d;
+    overflow: hidden;
+    min-height: 0;
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#bottom-bar {
+    flex-shrink: 0;
+    background: #0d120d;
+    border-top: 1px solid #1a2a1a;
+    padding: 22px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 10;
+}
+
+#description-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    text-align: center;
+}
+
+#description {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #8ab08a;
+    text-align: center;
+    line-height: 1.65;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1a2a1a;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#exercise {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #6a8a6a;
+    text-align: center;
+    line-height: 1.6;
+    font-style: italic;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#hint-line {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #a8c8a8;
+    text-align: center;
+    min-height: 18px;
+    font-style: italic;
+    transition: color 0.3s;
+}
+
+#bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 6px;
+}
+
+#buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+button {
+    background: #111611;
+    border: 1px solid #2a3a2a;
+    border-radius: 4px;
+    color: #8ab08a;
+    padding: 10px 14px;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+button:hover {
+    background: #1a201a;
+    border-color: #4a6a4a;
+    color: #b8d0b8;
+}
+button:active { transform: scale(0.97); }
+button.primary { border-color: #4a6a4a; color: #a8c8a8; }
+button.primary:hover { background: #1a2a1a; border-color: #6a9a6a; color: #d0e8d0; }
+button.reset { border-color: #6a3a3a; color: #d0a8a8; }
+button.reset:hover { background: #2a1a1a; border-color: #8a4a4a; color: #f0c8c8; }
+
+#meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    white-space: nowrap;
+}
+#vector { color: #a8c8a8; font-weight: bold; }
+#memory-label { color: #a8d0a8; font-weight: bold; }
+#structure-label { color: #6a8a6a; }
+
+#history-bar {
+    flex-shrink: 0;
+    background: #0a0f0a;
+    border-top: 1px solid #1a2a1a;
+    padding: 8px 32px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    white-space: nowrap;
+    min-height: 30px;
+    align-items: center;
+}
+#history-bar::-webkit-scrollbar { height: 4px; }
+#history-bar::-webkit-scrollbar-thumb { background: #1a2a1a; border-radius: 2px; }
+#history-bar .history-label {
+    color: #2a3a2a;
+    flex-shrink: 0;
+}
+#history-bar .history-line {
+    color: #4a6a4a;
+    flex-shrink: 0;
+}
+
+@media (max-width: 1000px) {
+    #bottom-bar { padding: 16px 16px 18px; }
+    #description, #exercise { font-size: 11px; }
+    button { font-size: 10px; padding: 8px 10px; }
+    #history-bar { padding: 8px 16px; }
+}
+</style>
+<style data-game-viewport>
+/* Standalone game viewport; no website styles are loaded. */
+html,body{height:100%;height:100dvh;min-width:0}
+body{overflow:hidden}
+#game-container{min-width:0;min-height:0}
+#field,#play-field{min-width:0;min-height:min(180px,45dvh)}
+#canvas{touch-action:none}
+#bottom-bar{max-height:48dvh;overflow-y:auto;overscroll-behavior:contain;padding:clamp(10px,2vh,22px) clamp(12px,3vw,32px);gap:clamp(7px,1.3vh,14px)}
+#bottom-inner,#buttons,#meta{flex-wrap:wrap;min-width:0}
+#meta{white-space:normal}
+#buttons button{min-height:40px}
+#history,#history-bar{max-width:100%}
+.side-number{font-size:clamp(40px,18vw,140px)}
+#panel{min-height:0;min-width:0}
+#panel-header,#input-bar{flex-shrink:0}
+#questions-list{min-height:0}
+#answer{max-width:calc(100% - 24px)}
+@media(max-width:600px){
+ #game-container:has(#panel){flex-direction:column}
+ #panel{order:1;width:100%;flex:0 0 42dvh;border-right:0;border-top:1px solid #1a2a1a}
+ #play-field{order:0;flex:1;touch-action:none}
+ #questions-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:6px;padding:8px}
+ #panel-header,#input-bar{padding:8px 12px}
+ .q-btn{min-width:0;overflow-wrap:anywhere}
+ #answer{padding:12px;font-size:15px}
+}
+
+</style></head>
+<body>
+
+<div id="game-container">
+
+    <div id="field">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="bottom-bar">
+
+        <div id="description-title">:: Память как структура ::</div>
+
+        <div id="description">
+            300 точек. Каждый цикл система забывает часть прошлого. Память — не свойство, а параметр. Чем больше память, тем больше структура. Чем меньше — тем ближе система к хаосу. Ты не управляешь точками — ты управляешь тем, сколько они помнят.
+        </div>
+
+        <div id="exercise">
+            Упражнение: поставь память 100% — посмотри, как система стабилизируется. Снизь до 0% — наблюдай распад. Найди порог, при котором структура ещё держится. Или докажи, что такого порога нет.
+        </div>
+
+        <div id="hint-line">нажми любую кнопку. наблюдай за структурой.</div>
+
+        <div id="bottom-inner">
+            <div id="buttons">
+                <button onclick="changeMemory(0.1)">память +10%</button>
+                <button onclick="changeMemory(-0.1)">память −10%</button>
+                <button class="primary" onclick="action('next')">next cycle</button>
+                <button class="reset" onclick="action('reset')">reset</button>
+            </div>
+            <div id="meta">
+                <span id="memory-label">MEMORY → 50%</span>
+                <span id="structure-label">STRUCTURE → ...</span>
+                <span id="vector">VECTOR → ...</span>
+            </div>
+        </div>
+
+        <div id="history-bar">
+            <span class="history-label">:: trail ::</span>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const field = document.getElementById('field');
+
+let sceneReady = false;
+function resize() {
+    const width = Math.max(1, Math.round(field.clientWidth));
+    const height = Math.max(1, Math.round(field.clientHeight));
+    if (canvas.width === width && canvas.height === height) return;
+    const previousWidth = canvas.width || width;
+    const previousHeight = canvas.height || height;
+    canvas.width = width;
+    canvas.height = height;
+    if (sceneReady) {
+        for (const dot of state.dots) {
+            dot.x = Math.max(0, Math.min(width, dot.x * width / previousWidth));
+            dot.y = Math.max(0, Math.min(height, dot.y * height / previousHeight));
+        }
+    }
+}
+resize();
+window.addEventListener('resize', resize);
+if (typeof ResizeObserver !== 'undefined') new ResizeObserver(resize).observe(field);
+
+// ============================================
+// СОСТОЯНИЕ
+// ============================================
+const NUM_DOTS = 300;
+const GRID_SIZE = 50;
+const MAX_LINKS = 2000;
+
+const state = {
+    dots: [],
+    memory: 0.5,
+    cycle: 0,
+    links: [],
+    history: []
+};
+
+const TYPE_COLORS = [
+    { r: 220, g: 120, b: 120 },
+    { r: 120, g: 180, b: 220 },
+    { r: 180, g: 220, b: 120 }
+];
+
+// ============================================
+// ИНИЦИАЛИЗАЦИЯ
+// ============================================
+function createDot() {
+    return {
+        x: 40 + Math.random() * (canvas.width - 80),
+        y: 40 + Math.random() * (canvas.height - 80),
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        type: Math.floor(Math.random() * 3),
+        size: 2 + Math.random() * 1.8
+    };
+}
+
+function initDots() {
+    state.dots = [];
+    for (let i = 0; i < NUM_DOTS; i++) {
+        state.dots.push(createDot());
+    }
+    state.links = [];
+    state.cycle = 0;
+}
+
+// ============================================
+// ШАГ
+// ============================================
+function step() {
+    const dots = state.dots;
+    const W = canvas.width;
+    const H = canvas.height;
+
+    const grid = new Map();
+    for (let i = 0; i < dots.length; i++) {
+        const d = dots[i];
+        const gx = Math.floor(d.x / GRID_SIZE);
+        const gy = Math.floor(d.y / GRID_SIZE);
+        const key = gx + ',' + gy;
+        if (!grid.has(key)) grid.set(key, []);
+        grid.get(key).push(i);
+    }
+
+    const newLinks = [];
+
+    for (let i = 0; i < dots.length; i++) {
+        const a = dots[i];
+        const gx = Math.floor(a.x / GRID_SIZE);
+        const gy = Math.floor(a.y / GRID_SIZE);
+
+        for (let dx = -1; dx <= 1; dx++) {
+            for (let dy = -1; dy <= 1; dy++) {
+                const bucket = grid.get((gx+dx) + ',' + (gy+dy));
+                if (!bucket) continue;
+                for (const j of bucket) {
+                    if (j <= i) continue;
+                    const b = dots[j];
+                    const ddx = b.x - a.x;
+                    const ddy = b.y - a.y;
+                    const distSq = ddx*ddx + ddy*ddy;
+                    if (distSq < 2500 && distSq > 1) {
+                        const dist = Math.sqrt(distSq);
+
+                        if (a.type === b.type) {
+                            const force = 0.05 * (1 - dist / 50);
+                            const fx = (ddx / dist) * force;
+                            const fy = (ddy / dist) * force;
+                            a.vx += fx;
+                            a.vy += fy;
+                            b.vx -= fx;
+                            b.vy -= fy;
+                        } else {
+                            const force = 0.025 * (1 - dist / 50);
+                            const fx = (ddx / dist) * force;
+                            const fy = (ddy / dist) * force;
+                            a.vx -= fx;
+                            a.vy -= fy;
+                            b.vx += fx;
+                            b.vy += fy;
+                        }
+
+                        if (Math.random() < state.memory * 0.5) {
+                            newLinks.push([i, j]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    const keepCount = Math.floor(state.links.length * state.memory);
+    const keptLinks = state.links.slice(0, keepCount);
+    state.links = keptLinks.concat(newLinks);
+
+    if (state.links.length > MAX_LINKS) {
+        state.links = state.links.slice(-MAX_LINKS);
+    }
+
+    for (const d of dots) {
+        d.vx += (Math.random() - 0.5) * 0.05;
+        d.vy += (Math.random() - 0.5) * 0.05;
+
+        const speed = Math.sqrt(d.vx*d.vx + d.vy*d.vy);
+        const maxSpeed = 1.2;
+        if (speed > maxSpeed) {
+            d.vx = (d.vx / speed) * maxSpeed;
+            d.vy = (d.vy / speed) * maxSpeed;
+        }
+
+        d.vx *= 0.94;
+        d.vy *= 0.94;
+
+        d.x += d.vx;
+        d.y += d.vy;
+
+        if (d.x < 5) { d.x = 5; d.vx = Math.abs(d.vx); }
+        if (d.x > W - 5) { d.x = W - 5; d.vx = -Math.abs(d.vx); }
+        if (d.y < 5) { d.y = 5; d.vy = Math.abs(d.vy); }
+        if (d.y > H - 5) { d.y = H - 5; d.vy = -Math.abs(d.vy); }
+    }
+
+    state.cycle++;
+}
+
+// ============================================
+// СТРУКТУРА
+// ============================================
+function computeStructure() {
+    const parent = new Array(state.dots.length);
+    for (let i = 0; i < parent.length; i++) parent[i] = i;
+
+    function find(x) {
+        while (parent[x] !== x) {
+            parent[x] = parent[parent[x]];
+            x = parent[x];
+        }
+        return x;
+    }
+
+    function union(a, b) {
+        const ra = find(a);
+        const rb = find(b);
+        if (ra !== rb) parent[ra] = rb;
+    }
+
+    for (const [a, b] of state.links) {
+        union(a, b);
+    }
+
+    const counts = {};
+    for (let i = 0; i < state.dots.length; i++) {
+        const r = find(i);
+        counts[r] = (counts[r] || 0) + 1;
+    }
+
+    let meaningful = 0;
+    for (const k in counts) {
+        if (counts[k] > 1) meaningful++;
+    }
+
+    return { groups: meaningful, total: state.dots.length };
+}
+
+// ============================================
+// ОТРИСОВКА — ЯРКИЕ СВЯЗИ
+// ============================================
+function draw() {
+    ctx.fillStyle = '#0d120d';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const totalLinks = state.links.length;
+
+    for (let k = 0; k < totalLinks; k++) {
+        const [a, b] = state.links[k];
+        const da = state.dots[a];
+        const db = state.dots[b];
+        if (!da || !db) continue;
+
+        const freshness = totalLinks > 1 ? k / totalLinks : 1;
+        const alpha = 0.15 + 0.60 * freshness;
+
+        const c = TYPE_COLORS[da.type];
+
+        ctx.lineWidth = 0.8 + 0.9 * freshness;
+        ctx.strokeStyle = `rgba(${c.r}, ${c.g}, ${c.b}, ${alpha})`;
+        ctx.beginPath();
+        ctx.moveTo(da.x, da.y);
+        ctx.lineTo(db.x, db.y);
+        ctx.stroke();
+    }
+
+    for (const d of state.dots) {
+        const c = TYPE_COLORS[d.type];
+
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.size * 2.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${c.r}, ${c.g}, ${c.b}, 0.15)`;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgb(${c.r}, ${c.g}, ${c.b})`;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(d.x, d.y, d.size * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.fill();
+    }
+}
+
+// ============================================
+// ВЕКТОР
+// ============================================
+function computeVector() {
+    const structure = computeStructure();
+    const mem = state.memory;
+
+    if (mem > 0.9 && structure.groups <= 3) return 'STABILIZATION';
+    if (mem < 0.1 && structure.groups > 20) return 'CHAOS';
+    if (mem < 0.3) return 'DECAY';
+    if (structure.groups > 15) return 'FRAGMENTATION';
+    if (structure.groups > 5) return 'CLUSTERING';
+    return 'STABILIZATION';
+}
+
+// ============================================
+// UI
+// ============================================
+const memoryLabelEl = document.getElementById('memory-label');
+const structureLabelEl = document.getElementById('structure-label');
+const vectorEl = document.getElementById('vector');
+const hintEl = document.getElementById('hint-line');
+const historyEl = document.getElementById('history-bar');
+
+let hintTimeout = null;
+function showHint(text) {
+    if (hintTimeout) clearTimeout(hintTimeout);
+    hintEl.textContent = text;
+    hintEl.style.color = '#d0e8d0';
+    hintTimeout = setTimeout(() => {
+        hintEl.style.color = '#a8c8a8';
+    }, 3500);
+}
+
+function updateUI() {
+    memoryLabelEl.textContent = 'MEMORY → ' + Math.round(state.memory * 100) + '%';
+
+    const structure = computeStructure();
+    structureLabelEl.textContent = 'STRUCTURE → ' + structure.groups + ' groups';
+
+    const vector = computeVector();
+    vectorEl.textContent = 'VECTOR → ' + vector;
+    vectorEl.style.color = {
+        STABILIZATION: '#a8d0a8',
+        CLUSTERING: '#a8d0d0',
+        FRAGMENTATION: '#d0d0a8',
+        DECAY: '#d0a8a8',
+        CHAOS: '#d08888'
+    }[vector] || '#a8c8a8';
+}
+
+function addHistory() {
+    const structure = computeStructure();
+    const line = document.createElement('div');
+    line.className = 'history-line';
+    line.textContent = `c${state.cycle}:mem=${Math.round(state.memory*100)}%/${structure.groups}g`;
+    historyEl.appendChild(line);
+    while (historyEl.children.length > 21) {
+        historyEl.removeChild(historyEl.children[1]);
+    }
+    historyEl.scrollLeft = historyEl.scrollWidth;
+}
+
+function changeMemory(delta) {
+    state.memory = Math.max(0, Math.min(1, state.memory + delta));
+    showHint('память = ' + Math.round(state.memory * 100) + '%. структура перестраивается.');
+    updateUI();
+    addHistory();
+}
+
+function action(type) {
+    if (type === 'next') {
+        step();
+        showHint('цикл ' + state.cycle + ': система забыла ' + Math.round((1 - state.memory) * 100) + '% прошлого.');
+    } else if (type === 'reset') {
+        initDots();
+        state.memory = 0.5;
+        historyEl.innerHTML = '<span class="history-label">:: trail ::</span>';
+        showHint('система сброшена. память 50%. цикл 0.');
+    }
+    updateUI();
+    addHistory();
+}
+
+let frameCount = 0;
+function animate() {
+    if (frameCount % 90 === 0 && frameCount > 0) {
+        step();
+        updateUI();
+        addHistory();
+    }
+
+    draw();
+    frameCount++;
+    requestAnimationFrame(animate);
+}
+
+initDots();
+sceneReady = true;
+updateUI();
+addHistory();
+animate();
+</script>
+
+</body>
+</html></html>

@@ -1,0 +1,393 @@
+{
+  "documents": [
+    {
+      "demo": false,
+      "id": "USA::Meta::Language",
+      "relations": [
+        {
+          "evidence": "Core Freeze v1.1, пять объектов",
+          "status": "ESTABLISHED",
+          "target": "USA::Core::Freeze::v1.1",
+          "type": "DERIVED_FROM"
+        },
+        {
+          "evidence": "Box, Level I+II",
+          "status": "ESTABLISHED",
+          "target": "USA::Box",
+          "type": "EXTENDS"
+        },
+        {
+          "evidence": "Level 1, задача 5",
+          "status": "ESTABLISHED",
+          "target": "USA::Topology",
+          "type": "USES_METHOD"
+        },
+        {
+          "evidence": "Карточка задачи, Z(Ω)",
+          "status": "ESTABLISHED",
+          "target": "USA::Cybernetics",
+          "type": "USES_METHOD"
+        },
+        {
+          "evidence": "Открытые вопросы, 6 пунктов",
+          "status": "OPEN",
+          "target": "USA::Questions::Open",
+          "type": "GENERATES_QUESTION"
+        },
+        {
+          "evidence": "Пилот на G1",
+          "status": "OPEN",
+          "target": "USA::Pilot::G1",
+          "type": "REQUIRES_VALIDATION"
+        }
+      ],
+      "title": "USA-Meta: мета-язык, ядро, мост к физике",
+      "url": "/articles/meta/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::import-780c7544bc755f58",
+      "relations": [],
+      "title": "Физика вращения галактик — контроль импорта",
+      "url": "/articles/import-780c7544bc755f58/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::topological-dnns",
+      "relations": [],
+      "title": "Топологическое измерение глубоких нейронных сетей с помощью персистентных гомологий",
+      "url": "/articles/topological-dnns/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Architect",
+      "relations": [],
+      "title": "Архитектор",
+      "url": "/architect/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::buddhism-cybernetic-driver",
+      "relations": [],
+      "title": "Будда как системный архитектор: как буддизм учит управлять процессором сознания",
+      "url": "/articles/buddhism-cybernetic-driver/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::letters-as-actions",
+      "relations": [],
+      "title": "Буквы как действия: как научить ребенка видеть структуру мира с детского сада",
+      "url": "/articles/letters-as-actions/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Glossary",
+      "relations": [],
+      "title": "ГЛОССАРИЙ",
+      "url": "/glossary/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::talent-and-comfort",
+      "relations": [],
+      "title": "Закон гравитационной ямы: почему комфорт убивает талант",
+      "url": "/articles/talent-and-comfort/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::cycle-into-conditions",
+      "relations": [],
+      "title": "Как цикл записывает себя в условия следующего цикла: универсальный механизм, который работает везде",
+      "url": "/articles/cycle-into-conditions/index.html"
+    },
+    {
+      "demo": true,
+      "id": "demo::reading-status",
+      "relations": [
+        {
+          "evidence": "Демонстрация входящей связи; научное отношение не утверждается.",
+          "status": "DEMO",
+          "target": "USA::Meta::Language",
+          "type": "EXTENDS"
+        }
+      ],
+      "title": "Как читать статусы утверждений",
+      "url": "/articles/demo-method/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::market-connections",
+      "relations": [],
+      "title": "Кризис — это не падение цены: как топология видит обвал рынка за дни до его начала",
+      "url": "/articles/market-connections/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::001",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 001. КАК НАУЧИТЬСЯ ВИДЕТЬ ЦЕЛОЕ",
+      "url": "/lectures/001/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::002",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 002. Действующее прошлое",
+      "url": "/lectures/002/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::003",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 003. Незавершённое настоящее",
+      "url": "/lectures/003/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::004",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 004. Исчезнувшая река",
+      "url": "/lectures/004/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::005",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 005. До того, как возник вопрос",
+      "url": "/lectures/005/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::006",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 006. Вечность без часов",
+      "url": "/lectures/006/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::007",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 007. Словарь котый разворачивает вселенную",
+      "url": "/lectures/007/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::008",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 008. Обращение к ученым",
+      "url": "/lectures/008/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::pseudo-childhood",
+      "relations": [],
+      "title": "Ловушка «псевдодетскости»: почему чрезмерная защита детей разрушает фундамент их будущего",
+      "url": "/articles/pseudo-childhood/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Manifest::FourDots",
+      "relations": [],
+      "title": "Манифест :: четырёхточия",
+      "url": "/articles/manifest-four-dots/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::absolute-coherence",
+      "relations": [],
+      "title": "Оператор абсолютной когерентности: как математика описывает просветление и почему Нирвана — это не мистика",
+      "url": "/articles/absolute-coherence/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::hinduism-topological-limit",
+      "relations": [],
+      "title": "Ошибка индуизма: почему вечная душа — это топологический тупик, а карма — не приговор",
+      "url": "/articles/hinduism-topological-limit/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::turnip-threshold",
+      "relations": [],
+      "title": "Почему «Репка» — это модель порогового перехода, и как сказка учит структуре",
+      "url": "/articles/turnip-threshold/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::ai-black-box",
+      "relations": [],
+      "title": "Почему ИИ — это черный ящик и как топология вскрывает его изнутри",
+      "url": "/articles/ai-black-box/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::sleep-past-future",
+      "relations": [],
+      "title": "Почему сон сжимает прошлое и расширяет будущее: механика пустоты и полноты",
+      "url": "/articles/sleep-past-future/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::combinatorial-explosion",
+      "relations": [],
+      "title": "Проблемы человечества в ИИ: почему мы уперлись в линейность, а решение лежит в топологии",
+      "url": "/articles/combinatorial-explosion/index.html"
+    },
+    {
+      "demo": true,
+      "id": "demo::validation",
+      "relations": [
+        {
+          "evidence": "Только демонстрация навигации между документами.",
+          "status": "DEMO",
+          "target": "USA::Meta::Language",
+          "type": "USES_METHOD"
+        }
+      ],
+      "title": "Проверка на реальных данных: маршрут",
+      "url": "/articles/demo-question/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::subject-risk-method-language",
+      "relations": [],
+      "title": "Риск предмета и язык способа: как не убить сказку, обучая структуре",
+      "url": "/articles/subject-risk-method-language/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::birth-of-cosmology",
+      "relations": [],
+      "title": "Рождение космологии. Начало",
+      "url": "/articles/birth-of-cosmology/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::creator-audit",
+      "relations": [],
+      "title": "Семь параметров, которые отличают Мастера от генератора картинок",
+      "url": "/articles/creator-audit/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::meaning-before-numbers",
+      "relations": [],
+      "title": "Сначала математика, потом цифры: как «Репка» учит ребенка структурному мышлению раньше, чем он научится считать",
+      "url": "/articles/meaning-before-numbers/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::sleep-and-galaxies",
+      "relations": [],
+      "title": "Сон и галактики: общий оператор превращения истории в условия будущего",
+      "url": "/articles/sleep-and-galaxies/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::sleep-accounting",
+      "relations": [],
+      "title": "Сон как бухгалтерия души: почему утром ты уже не тот, кто заснул",
+      "url": "/articles/sleep-accounting/index.html"
+    },
+    {
+      "demo": true,
+      "id": "demo::demo-archive",
+      "relations": [
+        {
+          "evidence": "Только проверка интерфейса связей.",
+          "status": "DEMO",
+          "target": "USA::Meta::Language",
+          "type": "EXTENDS"
+        }
+      ],
+      "title": "Тест: Архив исследовательской версии",
+      "url": "/articles/demo-archive/index.html"
+    },
+    {
+      "demo": true,
+      "id": "demo::demo-source",
+      "relations": [
+        {
+          "evidence": "Только проверка интерфейса связей.",
+          "status": "DEMO",
+          "target": "USA::Meta::Language",
+          "type": "EXTENDS"
+        }
+      ],
+      "title": "Тест: Источники и воспроизводимость",
+      "url": "/articles/demo-source/index.html"
+    },
+    {
+      "demo": true,
+      "id": "demo::demo-model",
+      "relations": [
+        {
+          "evidence": "Только проверка интерфейса связей.",
+          "status": "DEMO",
+          "target": "USA::Meta::Language",
+          "type": "EXTENDS"
+        }
+      ],
+      "title": "Тест: Модель и условия применимости",
+      "url": "/articles/demo-model/index.html"
+    },
+    {
+      "demo": true,
+      "id": "demo::demo-limits",
+      "relations": [
+        {
+          "evidence": "Только проверка интерфейса связей.",
+          "status": "DEMO",
+          "target": "USA::Meta::Language",
+          "type": "EXTENDS"
+        }
+      ],
+      "title": "Тест: Ограничения интерпретации",
+      "url": "/articles/demo-limits/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::topology-instead-of-statistics",
+      "relations": [],
+      "title": "Топология вместо статистики: почему точные цифры оказались бесполезны там, где решается судьба",
+      "url": "/articles/topology-instead-of-statistics/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::soul-topology",
+      "relations": [],
+      "title": "Топология души: как работает перерождение, почему Шанти Дэви помнила прошлую жизнь и что такое Нирвана",
+      "url": "/articles/soul-topology/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::three-levels-of-action",
+      "relations": [],
+      "title": "Три уровня действия: сделал, вернулся с обратной связью, выстроил отношения",
+      "url": "/articles/three-levels-of-action/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::talent-leveling",
+      "relations": [],
+      "title": "Формула нивелирования талантов: почему комфорт убивает гениальность и как стресс создает титанов",
+      "url": "/articles/talent-leveling/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::digital-memory-crystal",
+      "relations": [],
+      "title": "Цифровое бессмертие или кристалл памяти: к чему приведет накопление мертвых траекторий",
+      "url": "/articles/digital-memory-crystal/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Article::limits-of-axiomatics",
+      "relations": [],
+      "title": "Что не укладывается в аксиоматику: смысл, ценность и другой человек",
+      "url": "/articles/limits-of-axiomatics/index.html"
+    }
+  ],
+  "prototype": "USA-003",
+  "schema_version": "0.1"
+}

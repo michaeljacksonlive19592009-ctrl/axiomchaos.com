@@ -1,0 +1,13 @@
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>СКВОЗНОЙ ГРАФ AGGREGATOR</p>
+<p>H → S → L → K → P → C → N. В текущем Aggregator это контур: хаос, структура, стратегия/ложь, корректор, правда/аттрактор, цена, навык. Навык меняет следующий проход, поэтому цепочка не заканчивается в N.</p></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>

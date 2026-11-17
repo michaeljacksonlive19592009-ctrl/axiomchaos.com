@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+	<channel>
+		<title>USA::Box on USA.site</title>
+		<link>https://example.invalid/topics/box/</link>
+		<description>Recent content in USA::Box on USA.site</description>
+		<generator>Hugo</generator>
+		<language>ru</language>
+		
+		
+		
+		
+			<lastBuildDate>Wed, 30 Sep 2026 00:00:00 +0000</lastBuildDate>
+		
+			<atom:link href="https://example.invalid/topics/box/index.xml" rel="self" type="application/rss+xml" />
+			<item>
+				<title>USA-Meta: мета-язык, ядро, мост к физике</title>
+				<link>https://example.invalid/articles/meta/</link>
+				<pubDate>Wed, 30 Sep 2026 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/articles/meta/</guid>
+				<description>&lt;p&gt;&lt;strong&gt;Единый документ:&lt;/strong&gt; мета-язык, математическое ядро и мост к физике. Iteration 8 — интеграция результатов Level I–III.&lt;/p&gt;&#xA;&lt;hr&gt;&#xA;&lt;p&gt;До сих пор документ рассматривался изнутри — как математика, физика, кибернетика, проверяя каждый слой на корректность. Это был анализ содержания. Теперь задача иная. Этот документ рассматривается как мета-документ — то есть как язык, как онтологическая рамка, как инструмент, который позволяет говорить о том, о чём наука раньше не могла говорить не потому, что запрещено, а потому что не было языка.&lt;/p&gt;</description>
+			</item>
+	</channel>
+</rss>

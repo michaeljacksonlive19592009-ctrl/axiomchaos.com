@@ -1,0 +1,41 @@
+/* Keep the established reading face and select heading and table typography by role. */
+@font-face{font-family:'STIX Two Math';src:url('../fonts/stix-two-math.woff') format('woff');font-style:normal;font-weight:400;font-display:swap;}
+@font-face{
+  font-family:"STIX Two Math Symbols";
+  src:url("../fonts/stix-two-math.woff") format("woff");
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  unicode-range:U+0304,U+2070-22FF,U+27C0-2AFF,U+1D400-1D7FF;
+}
+:root{--material-font-experiment:"STIX Two Math";}
+.prose{font-family:var(--material-font-experiment,var(--serif));}
+.material-lead,.article-opening{font-family:var(--material-font-experiment,var(--ui-sans));}
+.prose code{font-family:var(--material-font-experiment,var(--mono));}
+.prose table code{font-family:inherit;}
+.prose{--material-heading-font:"Open Sans","STIX Two Math Symbols",Arial,sans-serif;}
+.prose math{font-family:"STIX Two Math",math;}
+/* One reading size is inherited from the existing responsive .prose container.
+   The headings and native mathematical sub/sup/script layout keep their own roles. */
+.prose p,.prose>p:first-child,.prose .article-opening>p:first-child,
+.prose pre,.prose code,.prose pre code,.prose table code,.prose td code,
+.prose math{font-size:inherit;}
+.prose table{font-size:calc(1em - 2pt);}
+.prose code,.prose pre code,.prose table code,.prose td code{line-height:inherit;font-weight:inherit;font-style:inherit;color:inherit;background:transparent;padding:0;border-radius:0;}
+.prose pre{background:transparent;}
+.prose>p:first-child{color:inherit;}
+/* Only the page canvas, not cards, entry blocks, dialogs or the dark footer. */
+.design-merge{background:#fff;}
+
+.lecture-prose :is(h2,h3,h4,h5,h6),.glossary-prose :is(h2,h3,h4),.material-intro .glossary-title{
+  font-family:var(--material-heading-font,var(--ui-sans));font-weight:700;
+}
+.lecture-prose blockquote{margin-left:0}
+.lecture-toc-level-3{padding-left:1em}
+.lecture-navigation{display:flex;flex-wrap:wrap;gap:10px 22px;margin:35px auto 0;width:85%;font:14px var(--ui-sans)}
+.lecture-navigation a{color:var(--green);text-decoration:underline;text-underline-offset:.2em}
+.lecture-navigation a[rel=next]{margin-inline-start:auto}
+.glossary-term{border:1px solid var(--line);padding:clamp(15px,2vw,28px);margin-block:18px;scroll-margin-top:20px}
+.glossary-term h3{margin-top:0}
+.glossary-term p:last-child{margin-bottom:0}
+.owner-glossary .material-layout{grid-template-columns:minmax(0,1fr)}

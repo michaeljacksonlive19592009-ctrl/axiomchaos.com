@@ -1,0 +1,13 @@
+<table>
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><p>ПОСЛЕДНЯЯ ФОРМУЛА ЭТОЙ ГЛАВЫ</p>
+<p>PROVENANCE: старый образ → личная интуиция → модель → нейросетевое расширение → замыкание → демонтаж → потеря функции → новый вопрос.</p></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
+</table>

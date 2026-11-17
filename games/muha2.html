@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA::Site — FLY</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+    font-family: 'Consolas', monospace;
+    background-color: #0a0a0a;
+    color: #e8e8e8;
+    display: flex;
+    flex-direction: column;
+}
+
+#game-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    min-height: 0;
+    background: #0a0a0a;
+}
+
+#panel {
+    width: 280px;
+    flex-shrink: 0;
+    background: #0d120d;
+    border-right: 1px solid #1a2a1a;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+}
+
+#panel-header {
+    padding: 12px 16px;
+    border-bottom: 1px solid #1a2a1a;
+    color: #6a8a6a;
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#shuffle-btn {
+    background: transparent;
+    border: 1px solid #4a6a4a;
+    color: #8ab08a;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-family: 'Consolas', monospace;
+    font-size: 10px;
+    cursor: pointer;
+}
+#shuffle-btn:hover { background: #1a201a; color: #a8c8a8; }
+
+#questions-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+#questions-list::-webkit-scrollbar { width: 4px; }
+#questions-list::-webkit-scrollbar-thumb { background: #1a2a1a; border-radius: 2px; }
+
+.q-btn {
+    background: #141814;
+    border: 1px solid #1f2f1f;
+    border-left: 2px solid #4a6a4a;
+    color: #8ab08a;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+.q-btn:hover { background: #1a201a; color: #a8c8a8; }
+.q-btn:active { background: #202820; }
+
+#input-bar {
+    padding: 12px;
+    border-top: 1px solid #1a2a1a;
+    background: #0a0f0a;
+}
+#input-bar input {
+    width: 100%;
+    background: #1a241a;
+    border: 1px solid #3a5a3a;
+    color: #b8d0b8;
+    padding: 8px 10px;
+    border-radius: 4px;
+    font-family: 'Consolas', monospace;
+    outline: none;
+    font-size: 12px;
+    transition: border-color 0.15s;
+}
+#input-bar input::placeholder { color: #6a8a6a; }
+#input-bar input:focus { border-color: #6a9a6a; }
+
+#play-field {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #0a0a0a;
+    min-width: 0;
+    cursor: default;
+}
+
+#fly {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    pointer-events: none;
+    z-index: 15;
+    transform: translate(-50%, -50%);
+}
+
+.body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 26px;
+    height: 16px;
+    background: #1a1a1a;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0,255,100,0.5);
+    transition: box-shadow 0.2s, background 0.2s;
+}
+.body.scared {
+    background: #2a0a0a;
+    box-shadow: 0 0 20px rgba(255,68,68,0.9);
+}
+.body.crawling {
+    background: #1a1000;
+    box-shadow: 0 0 10px rgba(255,170,0,0.5);
+}
+
+.eye {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: #00ff66;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #00ff66;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.eye.scared   { background: #ff4444; box-shadow: 0 0 10px #ff4444; }
+.eye.crawling { background: #ffaa00; box-shadow: 0 0 8px  #ffaa00; }
+.eye.left  { top: 8px;  left: 5px; }
+.eye.mid   { top: 4px;  left: 12px; }
+.eye.right { top: 8px;  right: 5px; }
+
+.wing {
+    position: absolute;
+    width: 16px;
+    height: 10px;
+    background: rgba(200,220,255,0.15);
+    border-radius: 50%;
+    top: 8px;
+    animation: flutter 0.08s infinite;
+}
+.wing.left  { left: -6px; }
+.wing.right { right: -6px; }
+.wing.crawling { animation: none; opacity: 0.2; }
+
+@keyframes flutter {
+    0%,100% { transform: scaleY(1); }
+    50%     { transform: scaleY(0.3); }
+}
+
+#answer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    background: #101810;
+    border: 1px solid #6a9a6a;
+    border-radius: 8px;
+    padding: 18px 24px;
+    color: #a8d0a8;
+    font-family: 'Consolas', monospace;
+    font-size: 18px;
+    line-height: 1.4;
+    max-width: 500px;
+    z-index: 25;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    text-align: center;
+    pointer-events: none;
+    box-shadow: 0 0 30px rgba(106, 154, 106, 0.25);
+}
+#answer.visible { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#answer-label {
+    color: #6a9a6a;
+    font-size: 10px;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+    text-transform: uppercase;
+}
+
+#feynman {
+    position: fixed;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%) translateX(100%);
+    width: 200px;
+    background: transparent;
+    padding: 8px;
+    z-index: 30;
+    opacity: 0;
+    transition: opacity 0.5s, transform 0.5s;
+    pointer-events: none;
+}
+#feynman.visible { opacity: 1; transform: translateY(-50%) translateX(0); }
+#feynman-header {
+    color: #d4a017;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+#feynman-face {
+    font-family: 'Consolas', monospace;
+    font-size: 6px;
+    line-height: 1.05;
+    color: #d4a017;
+    white-space: pre;
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 0 0 5px rgba(212, 160, 23, 0.6);
+}
+#feynman-text {
+    color: #d4a017;
+    font-size: 13px;
+    line-height: 1.4;
+    font-style: italic;
+    text-align: center;
+}
+
+@media (max-width: 1000px) {
+    #panel { width: 220px; }
+}
+</style>
+<style data-game-viewport>
+/* Standalone game viewport; no website styles are loaded. */
+html,body{height:100%;height:100dvh;min-width:0}
+body{overflow:hidden}
+#game-container{min-width:0;min-height:0}
+#field,#play-field{min-width:0;min-height:min(180px,45dvh)}
+#canvas{touch-action:none}
+#bottom-bar{max-height:48dvh;overflow-y:auto;overscroll-behavior:contain;padding:clamp(10px,2vh,22px) clamp(12px,3vw,32px);gap:clamp(7px,1.3vh,14px)}
+#bottom-inner,#buttons,#meta{flex-wrap:wrap;min-width:0}
+#meta{white-space:normal}
+#buttons button{min-height:40px}
+#history,#history-bar{max-width:100%}
+.side-number{font-size:clamp(40px,18vw,140px)}
+#panel{min-height:0;min-width:0}
+#panel-header,#input-bar{flex-shrink:0}
+#questions-list{min-height:0}
+#answer{max-width:calc(100% - 24px)}
+@media(max-width:600px){
+ #game-container:has(#panel){flex-direction:column}
+ #panel{order:1;width:100%;flex:0 0 42dvh;border-right:0;border-top:1px solid #1a2a1a}
+ #play-field{order:0;flex:1;touch-action:none}
+ #questions-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:6px;padding:8px}
+ #panel-header,#input-bar{padding:8px 12px}
+ .q-btn{min-width:0;overflow-wrap:anywhere}
+ #answer{padding:12px;font-size:15px}
+}
+
+</style></head>
+<body>
+
+<div id="game-container">
+
+    <div id="panel">
+        <div id="panel-header">
+            <span>:: USA::FLY ::</span>
+            <button id="shuffle-btn" onclick="generateQuestions()">новые</button>
+        </div>
+        <div id="questions-list"></div>
+        <div id="input-bar">
+            <input type="text" id="question" placeholder="Свой вопрос...">
+        </div>
+    </div>
+
+    <div id="play-field">
+        <div id="fly">
+            <div class="wing left" id="wingL"></div>
+            <div class="wing right" id="wingR"></div>
+            <div class="body" id="flyBody">
+                <div class="eye left" id="eyeL"></div>
+                <div class="eye mid" id="eyeM"></div>
+                <div class="eye right" id="eyeR"></div>
+            </div>
+        </div>
+        <div id="answer">
+            <div id="answer-label">:: ОТВЕТ ::</div>
+            <div id="answer-text"></div>
+        </div>
+    </div>
+
+</div>
+
+<div id="feynman">
+    <div id="feynman-header">:: R. FEYNMAN ::</div>
+    <div id="feynman-face">    ██████████████
+  ██░░░░░░░░░░░░░░██
+ █░░░░░░░░░░░░░░░░░░█
+█░░░░░░░░░░░░░░░░░░░░█
+█░░░▓▓░░░░░░░░░░▓▓░░░█
+█░░░▓▓▓░░░░░░░░▓▓▓░░░█
+█░░░░░░░░░░░░░░░░░░░░█
+█░░░░░░░▓▓▓▓▓▓░░░░░░░█
+█░░░░░░░░░░░░░░░░░░░░█
+ █░░░░░░░░░░░░░░░░░░█
+  ██░░░░░░░░░░░░░░██
+    ██████████████</div>
+    <div id="feynman-text">Внесено в протокол.</div>
+</div>
+
+<script>
+const FLY_SIZE = 50;
+const RADIUS_FEAR = 150;
+const SPEED_CRAWL = 2;
+const SPEED_FEAR = 20;
+
+const SIT_DURATION = 3;
+const FLY_DURATION = 4;
+
+const fly = document.getElementById('fly');
+const flyBody = document.getElementById('flyBody');
+const eyeL = document.getElementById('eyeL');
+const eyeM = document.getElementById('eyeM');
+const eyeR = document.getElementById('eyeR');
+const wingL = document.getElementById('wingL');
+const wingR = document.getElementById('wingR');
+
+const input = document.getElementById('question');
+const feynman = document.getElementById('feynman');
+const feynmanText = document.getElementById('feynman-text');
+const questionsList = document.getElementById('questions-list');
+const answerEl = document.getElementById('answer');
+const answerText = document.getElementById('answer-text');
+const playField = document.getElementById('play-field');
+
+let fieldW = playField.clientWidth;
+let fieldH = playField.clientHeight;
+
+function updateFieldSize() {
+    fieldW = playField.clientWidth;
+    fieldH = playField.clientHeight;
+}
+
+window.addEventListener('resize', updateFieldSize);
+updateFieldSize();
+
+let mouseX = -10000;
+let mouseY = -10000;
+
+playField.addEventListener('pointermove', (e) => {
+    const rect = playField.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+});
+
+playField.addEventListener('pointerleave', () => {
+    mouseX = -10000;
+    mouseY = -10000;
+});
+
+const flyState = {
+    x: fieldW / 2,
+    y: fieldH / 2,
+    vx: 0,
+    vy: 0,
+    wingPhase: 0,
+    mode: 'crawling',
+    modeTimer: 0,
+    targetX: fieldW / 2,
+    targetY: fieldH / 2,
+    fear: 0
+};
+
+const questionPool = [
+    'Привет', 'Как дела?', 'Что делаешь?', 'Где ты?', 'Кто ты?',
+    'Что такое жизнь?', 'В чём смысл?', 'Что такое время?', 'Что такое смерть?', 'Что такое любовь?',
+    'Ты боишься?', 'Ты думаешь?', 'Ты устала?', 'Ты хочешь есть?', 'Ты хочешь спать?',
+    'Что такое бог?', 'Что такое вселенная?', 'Что такое квант?', 'Что такое топология?', 'Что такое русло?',
+    'Почему небо синее?', 'Почему идёт дождь?', 'Почему светит солнце?', 'Почему ты летаешь?', 'Почему ты жужжишь?',
+    'Как ты летаешь?', 'Как ты думаешь?', 'Как ты видишь?', 'Как ты слышишь?', 'Как ты чувствуешь?',
+    'Зачем ты живёшь?', 'Зачем ты летаешь?', 'Зачем тебе сахар?', 'Зачем ты жужжишь?', 'Зачем ты здесь?',
+    'Что такое кибернетика?', 'Что такое гомология?', 'Что такое персистентность?', 'Что такое сингулярность?', 'Что такое класс?',
+    'Ты видела бога?', 'Ты видела смерть?', 'Ты видела любовь?', 'Ты видела страх?', 'Ты видела чудо?',
+    'Что такое смысл жизни?', 'Что такое счастье?', 'Что такое грусть?', 'Что такое радость?', 'Что такое страх?',
+    'Ты умеешь мечтать?', 'Ты умеешь плакать?', 'Ты умеешь смеяться?', 'Ты умеешь любить?', 'Ты умеешь прощать?',
+    'Сколько тебе лет?', 'Откуда ты?', 'Куда ты летишь?', 'Где твой дом?', 'Кто твоя мама?',
+    'Что такое добро?', 'Что такое зло?', 'Что такое правда?', 'Что такое ложь?', 'Что такое истина?',
+    'Ты веришь в бога?', 'Ты веришь в людей?', 'Ты веришь в себя?', 'Ты веришь в чудо?', 'Ты веришь в смерть?',
+    'Что ты ела сегодня?', 'Что ты видела сегодня?', 'Что ты делала сегодня?', 'Что ты хочешь завтра?', 'Что ты хочешь сейчас?',
+    'Расскажи о себе', 'Расскажи о мире', 'Расскажи о людях', 'Расскажи о боге', 'Расскажи о смерти',
+    'Что такое человек?', 'Что такое разум?', 'Что такое душа?', 'Что такое карма?', 'Что такое нирвана?',
+    'Тебе страшно?', 'Тебе скучно?', 'Тебе весело?', 'Тебе грустно?', 'Тебе хорошо?',
+    'Ты хочешь дружить?', 'Ты хочешь играть?', 'Ты хочешь петь?', 'Ты хочешь танцевать?', 'Ты хочешь летать?',
+    'Что такое музыка?', 'Что такое искусство?', 'Что такое красота?', 'Что такое гармония?', 'Что такое ритм?',
+    'Что такое наука?', 'Что такое философия?', 'Что такое математика?', 'Что такое физика?', 'Что такое химия?',
+    'Ты знаешь Фейнмана?', 'Ты знаешь Эйнштейна?', 'Ты знаешь Бора?', 'Ты знаешь Перельмана?', 'Ты знаешь Пуанкаре?',
+    'Что такое пространство?', 'Что такое материя?', 'Что такое энергия?', 'Что такое движение?', 'Что такое покой?',
+    'Что такое прошлое?', 'Что такое будущее?', 'Что такое настоящее?', 'Что такое вечность?', 'Что такое мгновение?',
+    'Ты хочешь стать человеком?', 'Ты хочешь стать богом?', 'Ты хочешь стать никем?', 'Ты хочешь стать всем?', 'Ты хочешь стать собой?',
+    'Что такое хаос?', 'Что такое порядок?', 'Что такое структура?', 'Что такое связь?', 'Что такое отношение?',
+    'Что такое мысль?', 'Что такое чувство?', 'Что такое воля?', 'Что такое намерение?', 'Что такое действие?',
+    'Что такое путь?', 'Что такое цель?', 'Что такое смысл пути?', 'Что такое конец пути?', 'Что такое начало пути?',
+    'Что ты чувствуешь сейчас?', 'О чём ты думаешь сейчас?', 'Чего ты хочешь сейчас?', 'Куда ты летишь сейчас?', 'Почему ты здесь сейчас?'
+];
+
+const simpleRules = [
+    { keys: ['привет','здравствуй'], joke: ['привет! сахар есть?','о, человек!','жжж... рада тебя слышать','привет-привет'] },
+    { keys: ['как дела','как ты','как жизнь'], joke: ['летаю. а ты?','всё жужжу','нормально. жжж в меру'] },
+    { keys: ['что делаешь','чем занят'], joke: ['пишу мемуары','планирую господство','жужжу. как обычно'] },
+    { keys: ['где ты','где сидишь'], joke: ['в твоём супе. шутка','рядом. всегда рядом','у тебя на мониторе'] },
+    { keys: ['кто ты','ты кто'], joke: ['муха. и горжусь','та, кого не поймать','маленькая. но наглая'] },
+    { keys: ['еда','есть','голод'], joke: ['хочу! варенье?','сахар? сахар?!','дай крошку'] },
+    { keys: ['спать','сон','устал'], joke: ['мухи не спят','посплю в следующей жизни','сон — для больших'] },
+    { keys: ['люблю','нравишься'], joke: ['я тоже тебя','люблю сахар','не подлизывайся'] },
+    { keys: ['играть','игра'], joke: ['давай! догони','я всегда играю','курсор? попробуй'] },
+    { keys: ['боишься','страшно','страх'], joke: ['боюсь. когда ты близко','все боятся','но я лечу'] }
+];
+
+const smartRules = [
+    { keys: ['смысл','предназначение'], smart: ['[γ] ∈ H¹(M \\ Σ). класс','актуализировать S из ℋ','N_top = [γ]','смысл — в траектории'] },
+    { keys: ['время'], smart: ['dT/dt. растёт. всегда','время — это p_t','T_t → ∞. но я не считаю'] },
+    { keys: ['бог','создатель'], smart: ['G. оператор над операторами','Φ_{t+1} = G(Φ_t, X_t)','вселенная не терпит избыточных законов'] },
+    { keys: ['смерть','умереть'], smart: ['w → 0. [γ] — нет','персистентность d = ∞','N_legacy переживёт w'] },
+    { keys: ['думать','мысль','сознание'], smart: ['Φ_t работает','мысль — это S_t','разум — связность графа'] },
+    { keys: ['вселенная','космос'], smart: ['M. многообразие','Ω = M + Σ[γ_A] + ℋ','комковатость — следствие'] },
+    { keys: ['квант','запутанность'], smart: ['струна — русло','ER = EPR','квант/вселенная — один класс'] },
+    { keys: ['топология','гомология','русло'], smart: ['[γ] ∈ H¹(M \\ Σ)','русло — то, чего нет','персистентность — моя жизнь'] },
+    { keys: ['кибернетика','управление'], smart: ['контур. измерение → действие','Фёрстер. второго порядка','кибернетика третьего уровня'] },
+    { keys: ['истина','правда','ложь'], smart: ['правда — аттрактор P','ложь — K̃ → 1','истина — это предел'] },
+    { keys: ['любовь','влюбиться'], smart: ['любовь — K̃ → 0','один класс. может быть','проще с сахаром'] },
+    { keys: ['будущее','прогноз'], smart: ['окно τ = [t_low, t_high]','прогноз — распределение','не гадаю. живу'] },
+    { keys: ['человек','люди'], smart: ['большие. странные. но интересные','вы тоже [γ]','я вас не понимаю. но уважаю'] },
+    { keys: ['душа','карма','нирвана'], smart: ['L2 : M_internal → A_phantom','замкнутый контур обратной связи','δ = 0. поверхность скольжения'] },
+    { keys: ['музыка','искусство','красота'], smart: ['набор структурных взаимодействий','это не метафора','топологический след'] },
+    { keys: ['фейнман','эйнштейн','бор','перельман'], smart: ['знаю. [γ] ∈ H¹','великие. наверное','читала краем крыла'] }
+];
+
+const unknown = ['не знаю','сложно','не понимаю. но жжж','может быть. жжж','дай подумать','лечу дальше'];
+
+function pickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function answer(q) {
+    const lower = q.toLowerCase().trim();
+    for (const rule of simpleRules) {
+        for (const key of rule.keys) {
+            if (lower.includes(key)) return pickRandom(rule.joke);
+        }
+    }
+    for (const rule of smartRules) {
+        for (const key of rule.keys) {
+            if (lower.includes(key)) return pickRandom(rule.smart);
+        }
+    }
+    return pickRandom(unknown);
+}
+
+let answerTimeout = null;
+
+function showAnswer(text) {
+    if (answerTimeout) clearTimeout(answerTimeout);
+    answerText.textContent = text;
+    answerEl.classList.add('visible');
+    answerTimeout = setTimeout(() => {
+        answerEl.classList.remove('visible');
+    }, 2200);
+}
+
+function ask(question) {
+    // НЕ трогаем поведение мухи — она продолжает то, что делала.
+    // Просто показываем ответ через небольшую задержку.
+
+    setTimeout(() => {
+        showAnswer(answer(question));
+        setTimeout(generateQuestions, 2400);
+    }, 400);
+}
+
+function generateQuestions() {
+    questionsList.innerHTML = '';
+    const shuffled = [...questionPool].sort(() => Math.random() - 0.5);
+    const selected = shuffled.slice(0, 10);
+
+    selected.forEach(q => {
+        const btn = document.createElement('button');
+        btn.className = 'q-btn';
+        btn.textContent = q;
+        btn.addEventListener('click', () => ask(q));
+        questionsList.appendChild(btn);
+    });
+}
+
+generateQuestions();
+setInterval(generateQuestions, 30000);
+
+input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && input.value.trim()) {
+        const q = input.value.trim();
+        input.value = '';
+        ask(q);
+    }
+});
+
+const feynmanPhrases = [
+    'Внесено в протокол.','Зафиксировано.','Продолжай.','Это уже было.',
+    'Не останавливайся.','Хорошо.','Понятно.','Протокол обновлён.',
+    'Отмечено.','Идём дальше.'
+];
+
+function showFeynman() {
+    feynmanText.textContent = pickRandom(feynmanPhrases);
+    feynman.classList.add('visible');
+    setTimeout(() => feynman.classList.remove('visible'), 6000);
+}
+
+setTimeout(showFeynman, 60000);
+setInterval(showFeynman, 90000);
+
+/* ============================================
+   ПРОСТОЙ ПОЛЁТ — как в muha1.html
+   ============================================ */
+function updateFly() {
+    const W = fieldW;
+    const H = fieldH;
+
+    flyState.fear = Math.max(0, flyState.fear - 0.02);
+    flyState.modeTimer += 0.016;
+    flyState.wingPhase += 0.4;
+
+    const dx = flyState.x - mouseX;
+    const dy = flyState.y - mouseY;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+
+    // УБЕГАНИЕ от курсора — единственная реакция
+    if (mouseX > -5000 && dist < RADIUS_FEAR) {
+        flyState.mode = 'flying';
+        flyState.modeTimer = 0;
+        flyState.fear = 1;
+
+        const nx = dx / (dist || 1);
+        const ny = dy / (dist || 1);
+
+        flyState.vx = nx * SPEED_FEAR;
+        flyState.vy = ny * SPEED_FEAR;
+    }
+
+    if (flyState.mode === 'crawling') {
+        if (Math.random() < 0.005) {
+            flyState.targetX = Math.min(100, W / 4) + Math.random() * (W - 2 * Math.min(100, W / 4));
+            flyState.targetY = Math.min(100, H / 4) + Math.random() * (H - 2 * Math.min(100, H / 4));
+        }
+        flyState.vx += (flyState.targetX - flyState.x) * 0.0005;
+        flyState.vy += (flyState.targetY - flyState.y) * 0.0005;
+        flyState.vx *= 0.95;
+        flyState.vy *= 0.95;
+
+        if (Math.random() < 0.002) {
+            flyState.mode = 'sitting';
+            flyState.modeTimer = 0;
+        }
+    } else if (flyState.mode === 'sitting') {
+        flyState.vx *= 0.7;
+        flyState.vy *= 0.7;
+
+        if (flyState.modeTimer > SIT_DURATION) {
+            flyState.mode = 'crawling';
+            flyState.modeTimer = 0;
+            flyState.targetX = Math.min(100, W / 4) + Math.random() * (W - 2 * Math.min(100, W / 4));
+            flyState.targetY = Math.min(100, H / 4) + Math.random() * (H - 2 * Math.min(100, H / 4));
+        }
+    } else if (flyState.mode === 'flying') {
+        flyState.vx *= 0.98;
+        flyState.vy *= 0.98;
+
+        if (flyState.modeTimer > FLY_DURATION) {
+            flyState.mode = 'sitting';
+            flyState.modeTimer = 0;
+            flyState.fear = 0;
+        }
+    }
+
+    const speed = Math.sqrt(flyState.vx*flyState.vx + flyState.vy*flyState.vy);
+    const maxSpeed = flyState.mode === 'flying' ? SPEED_FEAR : SPEED_CRAWL;
+    if (speed > maxSpeed) {
+        flyState.vx = (flyState.vx / speed) * maxSpeed;
+        flyState.vy = (flyState.vy / speed) * maxSpeed;
+    }
+
+    flyState.x += flyState.vx;
+    flyState.y += flyState.vy;
+
+    const margin = Math.min(FLY_SIZE / 2, W / 2, H / 2);
+    if (flyState.x < margin) {
+        flyState.x = margin;
+        flyState.vx = Math.abs(flyState.vx);
+    }
+    if (flyState.x > W - margin) {
+        flyState.x = W - margin;
+        flyState.vx = -Math.abs(flyState.vx);
+    }
+    if (flyState.y < margin) {
+        flyState.y = margin;
+        flyState.vy = Math.abs(flyState.vy);
+    }
+    if (flyState.y > H - margin) {
+        flyState.y = H - margin;
+        flyState.vy = -Math.abs(flyState.vy);
+    }
+}
+
+function updateFlyDOM() {
+    fly.style.left = flyState.x + 'px';
+    fly.style.top = flyState.y + 'px';
+
+    let cls = '';
+    if (flyState.fear > 0.5) cls = 'scared';
+    else if (flyState.mode === 'crawling') cls = 'crawling';
+    else cls = '';
+
+    flyBody.className = 'body ' + cls;
+    eyeL.className = 'eye left ' + cls;
+    eyeM.className = 'eye mid ' + cls;
+    eyeR.className = 'eye right ' + cls;
+    wingL.className = 'wing left ' + cls;
+    wingR.className = 'wing right ' + cls;
+}
+
+function animate() {
+    updateFieldSize();
+    updateFly();
+    updateFlyDOM();
+
+    requestAnimationFrame(animate);
+}
+
+flyState.x = fieldW / 2;
+flyState.y = fieldH / 2;
+
+animate();
+</script>
+
+</body>
+</html></html>
