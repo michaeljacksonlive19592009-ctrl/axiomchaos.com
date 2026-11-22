@@ -60,6 +60,69 @@
     },
     {
       "demo": false,
+      "id": "USA::Box::TasksABC",
+      "relations": [],
+      "title": "USA:: Box — Level I–II. Математическое ядро и мост к физике. Core Freeze v1.1 — прилагается",
+      "url": "/documents/box-tasks-abc/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Aggregator",
+      "relations": [],
+      "title": "USA::Aggregator",
+      "url": "/documents/aggregator/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Box::Level1",
+      "relations": [],
+      "title": "USA::Box",
+      "url": "/documents/box-level-1/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Box::Level2",
+      "relations": [],
+      "title": "USA::Box",
+      "url": "/documents/box-level-2/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Box",
+      "relations": [],
+      "title": "USA::Box",
+      "url": "/documents/box/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Cascade",
+      "relations": [],
+      "title": "USA::Cascade",
+      "url": "/documents/cascade/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Chaos",
+      "relations": [],
+      "title": "USA::Chaos",
+      "url": "/documents/chaos/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Details+",
+      "relations": [],
+      "title": "USA::Details+ Тонкости",
+      "url": "/documents/details-plus/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Galaxies",
+      "relations": [],
+      "title": "USA::Galaxies",
+      "url": "/documents/galaxies/index.html"
+    },
+    {
+      "demo": false,
       "id": "USA::Architect",
       "relations": [],
       "title": "Архитектор",
@@ -176,6 +239,27 @@
       "relations": [],
       "title": "ЛЕКЦИЯ 008. Обращение к ученым",
       "url": "/lectures/008/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::009",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 009. ДУША, ИМПУЛЬС И СВОБОДА СОБСТВЕННОГО ПУТИ",
+      "url": "/lectures/009/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::010",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 010.ДЕЛАЙ ЧТО ХОЧЕШЬ И НЕСИ ОТВЕТСТВЕННОСТЬ",
+      "url": "/lectures/010/index.html"
+    },
+    {
+      "demo": false,
+      "id": "USA::Lecture::011",
+      "relations": [],
+      "title": "ЛЕКЦИЯ 011.О ЛЮБВИ И КОГЕРЕНТНОСТИ",
+      "url": "/lectures/011/index.html"
     },
     {
       "demo": false,

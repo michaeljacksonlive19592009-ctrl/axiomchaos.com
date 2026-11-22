@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>USA::GAME::FACE</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+    font-family: 'Consolas', monospace;
+    background-color: #0a0a0a;
+    color: #e8e8e8;
+    display: flex;
+    flex-direction: column;
+}
+
+#game-container {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    background: #0a0a0a;
+}
+
+#field {
+    flex: 1;
+    position: relative;
+    background: #0d120d;
+    overflow: hidden;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#face {
+    position: relative;
+    width: 360px;
+    height: 440px;
+}
+
+.feature {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    color: #a8d0a8;
+    text-shadow: 0 0 20px rgba(168, 208, 168, 0.4);
+    transition: left 0.35s cubic-bezier(0.4, 0.0, 0.2, 1),
+                top 0.35s cubic-bezier(0.4, 0.0, 0.2, 1),
+                transform 0.35s cubic-bezier(0.4, 0.0, 0.2, 1),
+                opacity 0.35s;
+    user-select: none;
+    width: 90px;
+    height: 90px;
+}
+
+#bottom-bar {
+    flex-shrink: 0;
+    background: #0d120d;
+    border-top: 1px solid #1a2a1a;
+    padding: 22px 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    z-index: 10;
+}
+
+#description-title {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    text-align: center;
+}
+
+#description {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #8ab08a;
+    text-align: center;
+    line-height: 1.65;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #1a2a1a;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#exercise {
+    font-size: 13px;
+    letter-spacing: 0.3px;
+    color: #6a8a6a;
+    text-align: center;
+    line-height: 1.6;
+    font-style: italic;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+#hint-line {
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    color: #a8c8a8;
+    text-align: center;
+    min-height: 18px;
+    font-style: italic;
+    transition: color 0.3s;
+}
+
+#bottom-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 6px;
+}
+
+#buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    flex: 1;
+}
+
+button {
+    background: #111611;
+    border: 1px solid #2a3a2a;
+    border-radius: 4px;
+    color: #8ab08a;
+    padding: 10px 14px;
+    font-family: 'Consolas', monospace;
+    font-size: 11px;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+button:hover {
+    background: #1a201a;
+    border-color: #4a6a4a;
+    color: #b8d0b8;
+}
+button:active { transform: scale(0.97); }
+button.primary { border-color: #4a6a4a; color: #a8c8a8; }
+button.primary:hover { background: #1a2a1a; border-color: #6a9a6a; color: #d0e8d0; }
+button.reset { border-color: #6a3a3a; color: #d0a8a8; }
+button.reset:hover { background: #2a1a1a; border-color: #8a4a4a; color: #f0c8c8; }
+
+#meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    white-space: nowrap;
+}
+#vector { color: #a8c8a8; font-weight: bold; }
+#moves-label { color: #a8d0a8; font-weight: bold; }
+
+#history-bar {
+    flex-shrink: 0;
+    background: #0a0f0a;
+    border-top: 1px solid #1a2a1a;
+    padding: 8px 32px;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4a6a4a;
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    white-space: nowrap;
+    min-height: 30px;
+    align-items: center;
+}
+#history-bar::-webkit-scrollbar { height: 4px; }
+#history-bar::-webkit-scrollbar-thumb { background: #1a2a1a; border-radius: 2px; }
+#history-bar .history-label {
+    color: #2a3a2a;
+    flex-shrink: 0;
+}
+#history-bar .history-line {
+    color: #4a6a4a;
+    flex-shrink: 0;
+}
+
+@media (max-width: 1000px) {
+    #bottom-bar { padding: 16px 16px 18px; }
+    #description, #exercise { font-size: 11px; }
+    button { font-size: 10px; padding: 8px 10px; }
+    #history-bar { padding: 8px 16px; }
+    #face { width: 260px; height: 320px; }
+    .feature { font-size: 44px; width: 70px; height: 70px; }
+}
+</style>
+</head>
+<body>
+
+<div id="game-container">
+
+    <div id="field">
+        <div id="face">
+            <div class="feature" id="f-left-eye">👁</div>
+            <div class="feature" id="f-right-eye">👁</div>
+            <div class="feature" id="f-nose">👃</div>
+            <div class="feature" id="f-left-ear">👂</div>
+            <div class="feature" id="f-right-ear">👂</div>
+            <div class="feature" id="f-mouth">👄</div>
+        </div>
+    </div>
+
+    <div id="bottom-bar">
+
+        <div id="description-title">:: Лицо как структура ::</div>
+
+        <div id="description">
+            Шесть элементов лица. При каждом нажатии они меняются местами, переворачиваются или поворачиваются. Твоя задача — собрать нормальное человеческое лицо. Это не пазл. Это система, в которой правило изменения важнее самого изменения.
+        </div>
+
+        <div id="exercise">
+            Упражнение: собери лицо за минимальное число нажатий. Потом попробуй найти закономерность в перемещениях. Или докажи, что случайность здесь — не случайность.
+        </div>
+
+        <div id="hint-line">нажми «перемешать». наблюдай. собирай.</div>
+
+        <div id="bottom-inner">
+            <div id="buttons">
+                <button class="primary" onclick="action('shuffle')">перемешать</button>
+                <button onclick="action('flip')">перевернуть</button>
+                <button onclick="action('rotate')">повернуть</button>
+                <button class="reset" onclick="action('reset')">reset</button>
+            </div>
+            <div id="meta">
+                <span id="moves-label">MOVES → 0</span>
+                <span id="vector">FACE → ...</span>
+            </div>
+        </div>
+
+        <div id="history-bar">
+            <span class="history-label">:: moves ::</span>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+// ============================================
+// ПОЗИЦИИ ДЛЯ НОРМАЛЬНОГО ЛИЦА
+// ============================================
+const NORMAL = {
+    'f-left-eye':  { x: 60,  y: 130 },
+    'f-right-eye': { x: 210, y: 130 },
+    'f-nose':      { x: 135, y: 210 },
+    'f-left-ear':  { x: 0,   y: 170 },
+    'f-right-ear': { x: 270, y: 170 },
+    'f-mouth':     { x: 135, y: 300 }
+};
+
+const FEATURES = Object.keys(NORMAL);
+
+// ============================================
+// СОСТОЯНИЕ
+// ============================================
+const state = {
+    positions: {},
+    flips: {},
+    rotations: {},
+    moves: 0
+};
+
+// ============================================
+// ИНИЦИАЛИЗАЦИЯ
+// ============================================
+function initFace() {
+    state.positions = {};
+    state.flips = {};
+    state.rotations = {};
+    state.moves = 0;
+
+    for (const key of FEATURES) {
+        state.positions[key] = { ...NORMAL[key] };
+        state.flips[key] = false;
+        state.rotations[key] = 0;
+    }
+
+    shuffle();
+    render();
+}
+
+// ============================================
+// ДЕЙСТВИЯ
+// ============================================
+function shuffle() {
+    const positions = FEATURES.map(k => ({ ...state.positions[k] }));
+    for (let i = positions.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [positions[i], positions[j]] = [positions[j], positions[i]];
+    }
+
+    FEATURES.forEach((key, idx) => {
+        state.positions[key] = positions[idx];
+    });
+
+    for (const key of FEATURES) {
+        state.flips[key] = Math.random() < 0.3;
+        const r = Math.random();
+        if (r < 0.3) state.rotations[key] = 180;
+        else if (r < 0.5) state.rotations[key] = 90;
+        else state.rotations[key] = 0;
+    }
+
+    state.moves++;
+}
+
+function flipAll() {
+    for (const key of FEATURES) {
+        state.flips[key] = !state.flips[key];
+    }
+    state.moves++;
+}
+
+function rotateAll() {
+    for (const key of FEATURES) {
+        state.rotations[key] = (state.rotations[key] + 90) % 360;
+    }
+    state.moves++;
+}
+
+// ============================================
+// ПРОВЕРКА: СОБРАНО ЛИ ЛИЦО
+// ============================================
+function isSolved() {
+    for (const key of FEATURES) {
+        const p = state.positions[key];
+        const n = NORMAL[key];
+        if (Math.abs(p.x - n.x) > 5 || Math.abs(p.y - n.y) > 5) return false;
+        if (state.flips[key]) return false;
+        if (state.rotations[key] !== 0) return false;
+    }
+    return true;
+}
+
+// ============================================
+// ОТРИСОВКА
+// ============================================
+function render() {
+    for (const key of FEATURES) {
+        const el = document.getElementById(key);
+        const p = state.positions[key];
+        el.style.left = p.x + 'px';
+        el.style.top = p.y + 'px';
+
+        let transform = '';
+        if (state.flips[key]) transform += ' scaleX(-1)';
+        if (state.rotations[key]) transform += ' rotate(' + state.rotations[key] + 'deg)';
+        el.style.transform = transform.trim();
+    }
+}
+
+// ============================================
+// UI
+// ============================================
+const hintEl = document.getElementById('hint-line');
+const vectorEl = document.getElementById('vector');
+const movesLabelEl = document.getElementById('moves-label');
+const historyEl = document.getElementById('history-bar');
+
+let hintTimeout = null;
+function showHint(text) {
+    if (hintTimeout) clearTimeout(hintTimeout);
+    hintEl.textContent = text;
+    hintEl.style.color = '#d0e8d0';
+    hintTimeout = setTimeout(() => {
+        hintEl.style.color = '#a8c8a8';
+    }, 3500);
+}
+
+function computeVector() {
+    if (isSolved()) return 'SOLVED';
+
+    let correct = 0;
+    for (const key of FEATURES) {
+        const p = state.positions[key];
+        const n = NORMAL[key];
+        const posOK = Math.abs(p.x - n.x) <= 5 && Math.abs(p.y - n.y) <= 5;
+        const oriOK = !state.flips[key] && state.rotations[key] === 0;
+        if (posOK && oriOK) correct++;
+    }
+
+    if (correct >= 5) return 'ALMOST';
+    if (correct >= 3) return 'HALF';
+    if (correct >= 1) return 'CHAOS';
+    return 'RANDOM';
+}
+
+function updateUI() {
+    movesLabelEl.textContent = 'MOVES → ' + state.moves;
+
+    const vector = computeVector();
+    vectorEl.textContent = 'FACE → ' + vector;
+    vectorEl.style.color = {
+        SOLVED: '#a8d0a8',
+        ALMOST: '#a8d0d0',
+        HALF: '#d0d0a8',
+        CHAOS: '#d0a8a8',
+        RANDOM: '#d08888'
+    }[vector] || '#a8c8a8';
+}
+
+function addHistory(label) {
+    const line = document.createElement('div');
+    line.className = 'history-line';
+    line.textContent = `m${state.moves}:${label}`;
+    historyEl.appendChild(line);
+    while (historyEl.children.length > 21) {
+        historyEl.removeChild(historyEl.children[1]);
+    }
+    historyEl.scrollLeft = historyEl.scrollWidth;
+}
+
+// ============================================
+// ДЕЙСТВИЯ ЧЕРЕЗ КНОПКИ
+// ============================================
+function action(type) {
+    if (type === 'shuffle') {
+        shuffle();
+        render();
+        updateUI();
+        addHistory('shuffle');
+        if (isSolved()) {
+            showHint('собрано! число ходов: ' + state.moves + '.');
+        } else {
+            showHint('перемешано. ходов: ' + state.moves + '. собери лицо.');
+        }
+    } else if (type === 'flip') {
+        flipAll();
+        render();
+        updateUI();
+        addHistory('flip');
+        if (isSolved()) showHint('собрано! число ходов: ' + state.moves + '.');
+    } else if (type === 'rotate') {
+        rotateAll();
+        render();
+        updateUI();
+        addHistory('rotate');
+        if (isSolved()) showHint('собрано! число ходов: ' + state.moves + '.');
+    } else if (type === 'reset') {
+        initFace();
+        updateUI();
+        addHistory('reset');
+        showHint('сброшено. лицо перемешано. ходов: ' + state.moves + '.');
+    }
+}
+
+// ============================================
+// СТАРТ
+// ============================================
+initFace();
+updateUI();
+addHistory('start');
+</script>
+
+</body>
+</html>

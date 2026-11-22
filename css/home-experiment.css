@@ -29,11 +29,11 @@ body.xp-home-page{background:#fff}
 .xp-card-text .xp-description{margin-top:18px}
 .xp-card-text .xp-meta{margin-top:18px}
 .xp-card-text.xp-span-1 .xp-card-title{font-size:19px;line-height:1.35}
-.xp-card-text.xp-span-1 .xp-meta{margin-top:12px;font-size:10px;gap:6px 10px}
+.xp-card-text.xp-span-1 .xp-meta{margin-top:12px;font-size:11px;gap:6px 10px}
 .xp-card-compact{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
 .xp-card-compact .xp-card-title{font:600 19px/1.45 var(--ui-sans)}
 .xp-card-compact .xp-media img{aspect-ratio:1.5;object-fit:cover}
-.xp-card-compact .xp-meta{margin-top:18px;font-size:10px;gap:7px 12px}
+.xp-card-compact .xp-meta{margin-top:18px;font-size:11px;gap:7px 12px}
 .xp-card-compact.xp-tone-dark{padding:18px;background:var(--home-deep,#203d31);color:#fff}
 .xp-tone-dark .xp-meta{color:#d7e1d9}
 .xp-tone-dark a:hover,.xp-tone-dark button:hover{color:var(--brand-soft,#92bc98)}

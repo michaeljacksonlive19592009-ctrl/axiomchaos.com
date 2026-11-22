@@ -1,0 +1,12 @@
+/* Green links are confined to the glossary, as requested. */
+.glossary-section a[href]:not([aria-disabled="true"]),
+.glossary-section button:not(:disabled),
+.glossary-section summary{color:var(--green)}
+.glossary-section a[href]:hover,
+.glossary-section a[href]:focus-visible{text-decoration:underline;text-underline-offset:.18em}
+.entry-permanent-authority small{display:inline-block;vertical-align:top;font:10px/1.6 var(--ui-sans);margin-left:14px;color:var(--ink)}
+
+/* Whole-card links without changing the source three-column card layout. */
+.publication-card{position:relative;isolation:isolate}.publication-card h3 a:after{content:"";position:absolute;inset:0;z-index:1}.publication-card h3 a:focus-visible:after{outline:2px solid var(--green);outline-offset:3px}.publication-card .publication-meta a{position:relative;z-index:2}
+.material-breadcrumb{font:12px/1.6 var(--ui-sans);letter-spacing:.05em;text-transform:uppercase;color:var(--muted);margin:0 0 18px}
+.feed-more{display:block;margin:28px auto 0;padding:10px 22px;border:1px solid var(--line);background:white;color:var(--ink);font:12px/1.6 var(--ui-sans)}

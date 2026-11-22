@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>USA::GAME::PAIRS — Найди пару</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#110818;--ink2:#1A0F24;--surf:#241533;--surf2:#33204A;--line:#4A2F66;--txt:#F6ECFF;--dim:#AC93C4;--a1:#C084FC;--a2:#FB7185;--g1:rgba(192,132,252,.24);--g2:rgba(251,113,133,.18);--ok:#35D08A;--warn:#FFB020;--bad:#FF4D5E;--info:#38BDF8}
+html{-webkit-text-size-adjust:100%;scrollbar-color:var(--a1) var(--ink2);scrollbar-width:thin}
+body{min-height:100vh;background:var(--ink);color:var(--txt);font:15px/1.5 Inter,'Segoe UI',system-ui,sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:-25%;z-index:-2;background:radial-gradient(42% 38% at 16% 10%,var(--g1),transparent 70%),radial-gradient(38% 42% at 86% 16%,var(--g2),transparent 70%),radial-gradient(70% 55% at 50% 108%,var(--g2),transparent 72%);filter:blur(26px);animation:drift 26s ease-in-out infinite alternate}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>")}
+@keyframes drift{to{transform:translate3d(4%,-3%,0) scale(1.1)}}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:var(--ink2)}::-webkit-scrollbar-thumb{background:linear-gradient(var(--a1),var(--a2));border:2px solid var(--ink2);border-radius:9px}::-webkit-scrollbar-thumb:hover{background:var(--a1)}
+.wrap{max-width:600px;margin:0 auto;padding:18px 16px 40px}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between;padding:10px 14px;background:linear-gradient(180deg,var(--surf),var(--ink2));border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.14em;font-size:13px}
+.dots{display:grid;grid-template-columns:repeat(2,5px);gap:3px}.dots i{width:5px;height:5px;border-radius:50%;background:var(--a1);box-shadow:0 0 8px var(--a1)}
+.brand em{font-style:normal;color:var(--dim);font-weight:600;letter-spacing:.1em}
+.tools{display:flex;align-items:center;gap:8px}
+select,.btn,.ico{font:inherit;color:var(--txt);background:var(--surf2);border:1px solid var(--line);border-radius:10px;padding:7px 12px;cursor:pointer;transition:.16s}
+select{padding:7px 8px}
+.btn:hover,.ico:hover,select:hover{border-color:var(--a1);transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.btn:active,.ico:active{transform:translateY(0) scale(.98)}
+.btn.pri{background:linear-gradient(135deg,var(--a1),var(--a2));color:#1A0722;border-color:transparent;font-weight:800}
+:focus-visible{outline:2px solid var(--a2);outline-offset:2px}
+.head{margin:18px 2px 10px}
+h1{font-size:clamp(28px,7vw,40px);font-weight:800;letter-spacing:-.02em;background:linear-gradient(100deg,var(--txt),var(--a1) 50%,var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{color:var(--a1);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-top:4px}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.stat{background:linear-gradient(180deg,var(--surf),var(--ink2));border:1px solid var(--line);border-radius:12px;padding:8px 6px;text-align:center}
+.stat b{display:block;font-size:19px;font-variant-numeric:tabular-nums;color:var(--a2)}
+.stat span{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.stage{position:relative;aspect-ratio:1;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:radial-gradient(120% 100% at 50% 0%,var(--surf2),var(--ink));box-shadow:0 24px 60px rgba(0,0,0,.6),inset 0 0 60px rgba(0,0,0,.5);touch-action:manipulation}
+.grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(4,1fr);gap:10px;padding:14px;perspective:1000px}
+.card{position:relative;border:0;background:none;cursor:pointer;transform-style:preserve-3d;transition:transform .44s cubic-bezier(.3,.9,.3,1.25)}
+.card.flip{transform:rotateY(180deg)}
+.card.done{cursor:default}
+.card.done .front{box-shadow:0 0 26px currentColor,inset 0 0 22px rgba(255,255,255,.09);border-color:currentColor}
+.card.bad{animation:shk .4s}
+@keyframes shk{0%,100%{transform:rotateY(180deg) translateX(0)}25%{transform:rotateY(180deg) translateX(-7px)}75%{transform:rotateY(180deg) translateX(7px)}}
+.card.done{animation:pop .45s}
+@keyframes pop{0%{transform:rotateY(180deg) scale(1)}45%{transform:rotateY(180deg) scale(1.08)}100%{transform:rotateY(180deg) scale(1)}}
+.face{position:absolute;inset:0;border-radius:15px;display:grid;place-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--line);overflow:hidden}
+.back{background:linear-gradient(150deg,var(--surf2),var(--surf));box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 6px 16px rgba(0,0,0,.45)}
+.back i{display:grid;grid-template-columns:repeat(2,7px);gap:5px}
+.back i b{width:7px;height:7px;border-radius:50%;background:var(--a1);opacity:.55;box-shadow:0 0 9px var(--a1)}
+.front{transform:rotateY(180deg);background:linear-gradient(150deg,#20123A,#0E0718)}
+.front svg{width:56%;height:56%;max-width:64px;max-height:64px;fill:currentColor;filter:drop-shadow(0 0 10px currentColor)}
+.card:hover:not(.flip) .back{border-color:var(--a1)}
+.spark{position:absolute;width:7px;height:7px;border-radius:2px;pointer-events:none;z-index:7;animation:sp .6s ease-out forwards}
+@keyframes sp{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+.ov{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:10px;padding:24px;background:rgba(10,5,18,.92);backdrop-filter:blur(6px);z-index:9}
+.ov[hidden]{display:none}.ov h2{font-size:26px;color:var(--a2)}.ov p{color:var(--dim);max-width:34ch;margin:0 auto;font-size:14px}
+.pad{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.bar{height:6px;border-radius:6px;background:var(--ink2);border:1px solid var(--line);overflow:hidden;margin-top:10px}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--a1),var(--a2));transition:width .3s}
+.conf{position:absolute;width:8px;height:12px;pointer-events:none;z-index:8;top:-16px;animation:cf 1.5s linear forwards}
+@keyframes cf{to{transform:translate(var(--dx),110vh) rotate(720deg);opacity:0}}
+.foot{margin-top:20px;padding:16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--surf),transparent);color:var(--dim);font-size:14px}
+.foot b{color:var(--a1)}.foot p+p{margin-top:10px}
+@media(max-width:520px){.stat b{font-size:17px}.grid{gap:7px;padding:10px}}
+@media(prefers-reduced-motion:reduce){body::before{animation:none}.card{transition:none}}
+</style></head><body><div class="wrap">
+<header class="top"><div class="brand"><span class="dots"><i></i><i></i><i></i><i></i></span><b>USA</b><em>::GAME::PAIRS</em></div>
+<div class="tools"><select id="diff" aria-label="Время показа"><option value="1600">Спокойно</option><option value="1000" selected>Обычно</option><option value="600">Быстро</option></select><button class="ico" id="snd" aria-pressed="true">🔊 Звук</button></div></header>
+<div class="head"><h1>Найди пару</h1><p class="tag">:: Память ::</p></div>
+<div class="hud"><div class="stat"><b id="hMov">0</b><span>Ходы</span></div><div class="stat"><b id="hTime">0:00</b><span>Время</span></div><div class="stat"><b id="hPair">0/8</b><span>Пары</span></div><div class="stat"><b id="hBest">—</b><span>Рекорд</span></div></div>
+<div class="stage" id="stage"><div class="grid" id="grid"></div><div class="ov" id="ov" hidden><h2></h2><p></p><button class="btn pri" id="ovBtn">Ещё раз</button></div></div>
+<div class="bar"><i id="prog"></i></div>
+<div class="pad"><button class="btn pri" id="restart">Заново</button><button class="btn" id="pause">Пауза</button><span style="color:var(--dim);font-size:13px">Стрелки — выбор, Enter — открыть</span></div>
+<footer class="foot"><p>Шестнадцать карточек лицом вниз, восемь пар. Открывай по две. Совпали — остаются, нет — закрываются через секунду. Считаются ходы и время.</p><p><b>Упражнение:</b> найди все пары за 20 ходов. Потом за 14. Минимум — 8. Найди способ приблизиться к нему. Или докажи, что без везения нельзя.</p></footer>
+</div><script>
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem('usa_'+k));return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem('usa_'+k,JSON.stringify(v))}catch(e){}}};
+const Snd=(()=>{let ctx,on=store.get('snd',true);const ac=()=>ctx||(ctx=new(window.AudioContext||window.webkitAudioContext)());
+function t(f,d,ty='sine',v=.14,to){if(!on)return;try{const c=ac();if(c.state==='suspended')c.resume();const o=c.createOscillator(),g=c.createGain();o.type=ty;o.frequency.setValueAtTime(f,c.currentTime);if(to)o.frequency.exponentialRampToValueAtTime(Math.max(40,to),c.currentTime+d);g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(v,c.currentTime+.012);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+d+.03)}catch(e){}}
+return{t,resume(){try{ac().resume()}catch(e){}},set(v){on=v;store.set('snd',v)},get on(){return on}}})();
+const ICONS=[
+'<circle cx="24" cy="24" r="13"/>',
+'<path d="M24 8 39 37H9Z"/>',
+'<rect x="10" y="10" width="28" height="28" rx="5"/>',
+'<path d="M24 6l5.2 12.1L42 20l-9.6 8.7 2.6 12.8L24 35.1 13 41.5l2.6-12.8L6 20l12.8-1.9Z"/>',
+'<path d="M24 7l15 8.5v17L24 41 9 32.5v-17Z"/>',
+'<path d="M24 7c8.5 10.5 13 16 13 21a13 13 0 0 1-26 0c0-5 4.5-10.5 13-21Z"/>',
+'<path d="M19 7h10v12h12v10H29v12H19V29H7V19h12Z"/>',
+'<path d="M24 9a15 15 0 1 1-15 15" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><circle cx="24" cy="24" r="4.5"/>'
+];
+const HUES=['#FF5A5F','#FFB020','#A3E635','#2DD4BF','#38BDF8','#A855F7','#F472B6','#FDE047'];
+const grid=$('#grid'),stage=$('#stage'),ov=$('#ov'),ovBtn=$('#ovBtn');
+let deck=[],cards=[],open=[],matched=0,moves=0,locked=false,started=0,elapsed=0,running=false,state='play',focusIdx=0,timer=null;
+function key(){return 'pairsBest'+$('#diff').value}
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function build(){grid.innerHTML='';cards=[];
+ deck=shuffle([...Array(8).keys(),...Array(8).keys()]);
+ deck.forEach((sym,i)=>{const b=document.createElement('button');b.type='button';b.className='card';b.setAttribute('aria-label','Карточка '+(i+1));
+  b.innerHTML='<span class="face back"><i><b></b><b></b><b></b><b></b></i></span><span class="face front" style="color:'+HUES[sym]+'"><svg viewBox="0 0 48 48">'+ICONS[sym]+'</svg></span>';
+  b.addEventListener('click',()=>flip(i));grid.appendChild(b);cards.push(b)})}
+function hud(){$('#hMov').textContent=moves;$('#hPair').textContent=matched+'/8';
+ const s=Math.floor(elapsed/1000);$('#hTime').textContent=Math.floor(s/60)+':'+String(s%60).padStart(2,'0');
+ const b=store.get(key(),null);$('#hBest').textContent=b==null?'—':b;$('#prog').style.width=(matched/8*100)+'%'}
+function sparks(el,color){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect();
+ for(let i=0;i<12;i++){const p=document.createElement('span');p.className='spark';p.style.background=color;
+  p.style.left=(r.left-s.left+r.width/2)+'px';p.style.top=(r.top-s.top+r.height/2)+'px';
+  p.style.setProperty('--dx',(Math.random()*110-55)+'px');p.style.setProperty('--dy',(Math.random()*110-55)+'px');
+  stage.appendChild(p);p.addEventListener('animationend',()=>p.remove())}}
+function confetti(n=54){for(let i=0;i<n;i++){const s=document.createElement('span');s.className='conf';s.style.background=HUES[i%8];
+ s.style.left=Math.random()*100+'%';s.style.setProperty('--dx',(Math.random()*170-85)+'px');s.style.animationDelay=(Math.random()*.5)+'s';
+ stage.appendChild(s);s.addEventListener('animationend',()=>s.remove())}}
+function showOv(t,p,b){ov.hidden=false;ov.querySelector('h2').textContent=t;ov.querySelector('p').textContent=p;ovBtn.textContent=b}
+function flip(i){Snd.resume();if(state!=='play'||locked)return;const c=cards[i];
+ if(c.classList.contains('flip'))return;
+ if(!running){running=true;started=performance.now()-elapsed}
+ c.classList.add('flip');open.push(i);Snd.t(420+i*9,.07,'triangle',.1);
+ if(open.length<2)return;
+ moves++;locked=true;hud();
+ const [a,b]=open,sa=deck[a],sb=deck[b];
+ if(sa===sb){setTimeout(()=>{cards[a].classList.add('done');cards[b].classList.add('done');
+   sparks(cards[a],HUES[sa]);sparks(cards[b],HUES[sb]);matched++;open=[];locked=false;hud();
+   Snd.t(660,.12,'sine',.14,990);setTimeout(()=>Snd.t(990,.16,'sine',.12),90);
+   if(matched===8)win()},260)}
+ else{cards[a].classList.add('bad');cards[b].classList.add('bad');Snd.t(190,.14,'square',.09,130);
+  setTimeout(()=>{cards[a].classList.remove('flip','bad');cards[b].classList.remove('flip','bad');open=[];locked=false},+$('#diff').value)}}
+function win(){state='won';running=false;const b=store.get(key(),null);if(b==null||moves<b)store.set(key(),moves);hud();confetti();
+ [523,659,784,1046,1318].forEach((f,i)=>setTimeout(()=>Snd.t(f,.25,'sine',.15),i*105));
+ const s=Math.floor(elapsed/1000);
+ showOv('Все пары найдены','Ходов: '+moves+' · время '+Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+' · рекорд '+store.get(key(),moves),'Ещё раз')}
+function newGame(){matched=0;moves=0;open=[];locked=false;elapsed=0;running=false;state='play';focusIdx=0;ov.hidden=true;build();hud();cards[0].focus({preventScroll:true})}
+$('#restart').onclick=()=>{Snd.resume();newGame()};
+ovBtn.onclick=()=>{Snd.resume();newGame()};
+$('#pause').onclick=()=>{if(state==='play'){state='pause';running=false;showOv('Пауза','Время остановлено. Карточки ждут.','Продолжить')}
+ else if(state==='pause'){state='play';ov.hidden=true;if(matched<8&&moves>0){running=true;started=performance.now()-elapsed}}};
+$('#diff').onchange=newGame;
+$('#snd').onclick=e=>{const on=!Snd.on;Snd.set(on);e.currentTarget.textContent=on?'🔊 Звук':'🔇 Тихо';e.currentTarget.setAttribute('aria-pressed',on);if(on){Snd.resume();Snd.t(660,.1)}};
+$('#snd').textContent=Snd.on?'🔊 Звук':'🔇 Тихо';
+addEventListener('keydown',e=>{const m={ArrowRight:1,ArrowLeft:-1,ArrowDown:4,ArrowUp:-4};
+ if(m[e.key]!=null){e.preventDefault();focusIdx=(focusIdx+m[e.key]+16)%16;cards[focusIdx].focus({preventScroll:true})}
+ if(e.key==='r'||e.key==='к')newGame();
+ if(e.code==='Space'&&!ov.hidden){e.preventDefault();ovBtn.click()}});
+timer=setInterval(()=>{if(running&&state==='play'){elapsed=performance.now()-started;hud()}},250);
+newGame();
+</script></body></html>

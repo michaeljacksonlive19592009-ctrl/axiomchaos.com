@@ -48,5 +48,229 @@
 				<guid>https://example.invalid/topics/topology/</guid>
 				<description></description>
 			</item>
+			<item>
+				<title>PR</title>
+				<link>https://example.invalid/topics/pr/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/pr/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Аксиоматика</title>
+				<link>https://example.invalid/topics/axiomatics/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/axiomatics/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Аналитика</title>
+				<link>https://example.invalid/topics/analytics/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/analytics/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Арт</title>
+				<link>https://example.invalid/topics/visual-art/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/visual-art/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Астрономия</title>
+				<link>https://example.invalid/topics/astronomy/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/astronomy/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Биология</title>
+				<link>https://example.invalid/topics/biology/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/biology/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Буддизм</title>
+				<link>https://example.invalid/topics/buddhism/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/buddhism/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Все форматы материалов</title>
+				<link>https://example.invalid/topics/all-formats/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/all-formats/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Дизайн</title>
+				<link>https://example.invalid/topics/design/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/design/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Душа</title>
+				<link>https://example.invalid/topics/soul/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/soul/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Искусство</title>
+				<link>https://example.invalid/topics/art/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/art/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Каллиграфия</title>
+				<link>https://example.invalid/topics/calligraphy/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/calligraphy/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Карма</title>
+				<link>https://example.invalid/topics/karma/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/karma/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Карточки</title>
+				<link>https://example.invalid/topics/cards/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/cards/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Кибернетика</title>
+				<link>https://example.invalid/topics/cybernetics/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/cybernetics/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Космология</title>
+				<link>https://example.invalid/topics/cosmology/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/cosmology/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Любовь</title>
+				<link>https://example.invalid/topics/love/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/love/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Математика</title>
+				<link>https://example.invalid/topics/mathematics/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/mathematics/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Методология</title>
+				<link>https://example.invalid/topics/methodology/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/methodology/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Оккультизм</title>
+				<link>https://example.invalid/topics/occultism/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/occultism/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Педагогика</title>
+				<link>https://example.invalid/topics/pedagogy/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/pedagogy/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Про нейросети</title>
+				<link>https://example.invalid/topics/neural-networks/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/neural-networks/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Прогнозы</title>
+				<link>https://example.invalid/topics/forecasts/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/forecasts/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Психология</title>
+				<link>https://example.invalid/topics/psychology/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/psychology/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Разборы</title>
+				<link>https://example.invalid/topics/analysis/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/analysis/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Реинкарнация</title>
+				<link>https://example.invalid/topics/reincarnation/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/reincarnation/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Реклама</title>
+				<link>https://example.invalid/topics/advertising/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/advertising/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Религия</title>
+				<link>https://example.invalid/topics/religion/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/religion/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Самое спорное для науки!</title>
+				<link>https://example.invalid/topics/controversial/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/controversial/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Сказки</title>
+				<link>https://example.invalid/topics/fairy-tales/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/fairy-tales/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Фото/разборы</title>
+				<link>https://example.invalid/topics/photo-analysis/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/photo-analysis/</guid>
+				<description></description>
+			</item>
+			<item>
+				<title>Шаманизм</title>
+				<link>https://example.invalid/topics/shamanism/</link>
+				<pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+				<guid>https://example.invalid/topics/shamanism/</guid>
+				<description></description>
+			</item>
 	</channel>
 </rss>

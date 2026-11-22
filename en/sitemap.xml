@@ -67,6 +67,18 @@
                 href="https://example.invalid/en/"
                 />
   </url><url>
+    <loc>https://example.invalid/en/topics/neural-networks/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/neural-networks/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/neural-networks/"
+                />
+  </url><url>
     <loc>https://example.invalid/en/about/</loc>
     <xhtml:link
                 rel="alternate"
@@ -77,6 +89,18 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://example.invalid/en/about/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/advertising/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/advertising/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/advertising/"
                 />
   </url><url>
     <loc>https://example.invalid/en/formats/</loc>
@@ -91,6 +115,90 @@
                 href="https://example.invalid/en/formats/"
                 />
   </url><url>
+    <loc>https://example.invalid/en/topics/all-formats/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/all-formats/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/all-formats/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/analysis/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/analysis/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/analysis/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/analytics/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/analytics/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/analytics/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/art/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/art/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/art/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/visual-art/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/visual-art/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/visual-art/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/astronomy/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/astronomy/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/astronomy/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/axiomatics/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/axiomatics/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/axiomatics/"
+                />
+  </url><url>
     <loc>https://example.invalid/en/co-research/</loc>
     <xhtml:link
                 rel="alternate"
@@ -101,6 +209,66 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://example.invalid/en/co-research/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/biology/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/biology/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/biology/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/buddhism/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/buddhism/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/buddhism/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/calligraphy/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/calligraphy/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/calligraphy/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/cards/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/cards/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/cards/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/cosmology/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/cosmology/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/cosmology/"
                 />
   </url><url>
     <loc>https://example.invalid/en/creativity/</loc>
@@ -115,40 +283,64 @@
                 href="https://example.invalid/en/creativity/"
                 />
   </url><url>
-    <loc>https://example.invalid/en/meta/</loc>
+    <loc>https://example.invalid/en/topics/cybernetics/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ru"
-                href="https://example.invalid/meta/"
+                href="https://example.invalid/topics/cybernetics/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.invalid/en/meta/"
+                href="https://example.invalid/en/topics/cybernetics/"
                 />
   </url><url>
-    <loc>https://example.invalid/en/topics/meta/</loc>
+    <loc>https://example.invalid/en/topics/design/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ru"
-                href="https://example.invalid/topics/meta/"
+                href="https://example.invalid/topics/design/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.invalid/en/topics/meta/"
+                href="https://example.invalid/en/topics/design/"
                 />
   </url><url>
-    <loc>https://example.invalid/en/science/</loc>
+    <loc>https://example.invalid/en/topics/pedagogy/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="ru"
-                href="https://example.invalid/science/"
+                href="https://example.invalid/topics/pedagogy/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="https://example.invalid/en/science/"
+                href="https://example.invalid/en/topics/pedagogy/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/fairy-tales/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/fairy-tales/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/fairy-tales/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/forecasts/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/forecasts/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/forecasts/"
                 />
   </url><url>
     <loc>https://example.invalid/en/games/</loc>
@@ -163,6 +355,210 @@
                 href="https://example.invalid/en/games/"
                 />
   </url><url>
+    <loc>https://example.invalid/en/glossary/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/glossary/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/glossary/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/karma/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/karma/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/karma/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/lectures/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/lectures/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/lectures/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/love/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/love/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/love/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/meta/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/meta/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/meta/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/mathematics/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/mathematics/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/mathematics/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/meta/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/meta/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/meta/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/methodology/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/methodology/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/methodology/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/occultism/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/occultism/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/occultism/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/photo-analysis/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/photo-analysis/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/photo-analysis/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/pr/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/pr/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/pr/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/psychology/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/psychology/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/psychology/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/reincarnation/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/reincarnation/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/reincarnation/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/religion/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/religion/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/religion/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/science/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/science/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/science/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/shamanism/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/shamanism/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/shamanism/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/soul/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/soul/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/soul/"
+                />
+  </url><url>
     <loc>https://example.invalid/en/articles/talent-and-comfort/</loc>
     <xhtml:link
                 rel="alternate"
@@ -173,6 +569,18 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://example.invalid/en/articles/talent-and-comfort/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/topology/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/topology/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/topology/"
                 />
   </url><url>
     <loc>https://example.invalid/en/topics/core/</loc>
@@ -209,6 +617,18 @@
                 rel="alternate"
                 hreflang="en"
                 href="https://example.invalid/en/disputed/"
+                />
+  </url><url>
+    <loc>https://example.invalid/en/topics/controversial/</loc>
+    <xhtml:link
+                rel="alternate"
+                hreflang="ru"
+                href="https://example.invalid/topics/controversial/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://example.invalid/en/topics/controversial/"
                 />
   </url><url>
     <loc>https://example.invalid/en/architect/</loc>

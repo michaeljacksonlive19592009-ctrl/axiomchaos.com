@@ -25,8 +25,8 @@
   const label=root.querySelector('[data-photo-label]'),icon=root.querySelector('[data-photo-icon]');
   if(!button||!caption||!visual||!label||!icon)return;
   let expanded=root.dataset.photoState!=='collapsed';const animation=animator(root),title=caption.querySelector('h3')?.textContent||(en?'material':'материал');
-  function apply(next){expanded=next;root.dataset.photoState=next?'expanded':'collapsed';visual.setAttribute('aria-hidden',String(!next));button.hidden=false;button.setAttribute('aria-expanded',String(next));label.textContent=en?(next?'Collapse':'Expand'):(next?'Свернуть':'Развернуть');icon.textContent=next?'×':'⌄';button.setAttribute('aria-label',`${label.textContent} ${en?"photo:":"фотографию:"} ${title}`)}
-  function setExpanded(next){next=Boolean(next);if(next===expanded)return;animation.change(()=>apply(next),caption,visual)}
+  function apply(next){expanded=next;root.dataset.photoState=next?'expanded':'collapsed';visual.setAttribute('aria-hidden',String(!next));button.hidden=false;button.setAttribute('aria-expanded',String(next));label.textContent=en?(next?'Collapse':'Expand'):(next?'Свернуть':'Развернуть');if(next){icon.textContent='×'}else{icon.replaceChildren(root.querySelector('[data-photo-chevron]').content.cloneNode(true))};button.setAttribute('aria-label',`${label.textContent} ${en?"photo:":"фотографию:"} ${title}`)}
+  function setExpanded(next){next=Boolean(next);if(next===expanded)return;animation.change(()=>apply(next),caption,visual);if(!next&&root.closest('.xp-home-page')){const top=Math.max(0,root.getBoundingClientRect().top+scrollY-parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--site-header-height')||0)-16);scrollTo({top,behavior:'instant'});}}
   button.addEventListener('click',()=>setExpanded(!expanded));apply(expanded);
   const controller={element:root,setExpanded,get expanded(){return expanded},settle:animation.stop};photos.push(controller);return controller;
  }

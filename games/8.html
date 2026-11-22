@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>USA::GAME::CONNECT4 — Четыре в ряд</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#050C18;--ink2:#0A1526;--surf:#0F2038;--surf2:#16304F;--line:#22456E;--txt:#EAF3FF;--dim:#8AA6C6;--a1:#38BDF8;--a2:#FB923C;--g1:rgba(56,189,248,.22);--g2:rgba(251,146,60,.18);--ok:#35D08A;--warn:#FFB020;--bad:#FF4D5E;--info:#38BDF8;--you:#DFF3FF;--bot:#FB923C}
+html{-webkit-text-size-adjust:100%;scrollbar-color:var(--a1) var(--ink2);scrollbar-width:thin}
+body{min-height:100vh;background:var(--ink);color:var(--txt);font:15px/1.5 Inter,'Segoe UI',system-ui,sans-serif;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:-25%;z-index:-2;background:radial-gradient(42% 38% at 16% 10%,var(--g1),transparent 70%),radial-gradient(38% 42% at 86% 16%,var(--g2),transparent 70%),radial-gradient(70% 55% at 50% 108%,var(--g2),transparent 72%);filter:blur(26px);animation:drift 26s ease-in-out infinite alternate}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.06;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/></filter><rect width='140' height='140' filter='url(%23n)'/></svg>")}
+@keyframes drift{to{transform:translate3d(4%,-3%,0) scale(1.1)}}
+::-webkit-scrollbar{width:10px;height:10px}::-webkit-scrollbar-track{background:var(--ink2)}::-webkit-scrollbar-thumb{background:linear-gradient(var(--a1),var(--a2));border:2px solid var(--ink2);border-radius:9px}::-webkit-scrollbar-thumb:hover{background:var(--a1)}
+.wrap{max-width:600px;margin:0 auto;padding:18px 16px 40px}
+.top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:space-between;padding:10px 14px;background:linear-gradient(180deg,var(--surf),var(--ink2));border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;letter-spacing:.14em;font-size:13px}
+.dots{display:grid;grid-template-columns:repeat(2,5px);gap:3px}.dots i{width:5px;height:5px;border-radius:50%;background:var(--a1);box-shadow:0 0 8px var(--a1)}
+.brand em{font-style:normal;color:var(--dim);font-weight:600;letter-spacing:.1em}
+.tools{display:flex;align-items:center;gap:8px}
+select,.btn,.ico{font:inherit;color:var(--txt);background:var(--surf2);border:1px solid var(--line);border-radius:10px;padding:7px 12px;cursor:pointer;transition:.16s}
+select{padding:7px 8px}
+.btn:hover,.ico:hover,select:hover{border-color:var(--a1);transform:translateY(-1px);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.btn:active,.ico:active{transform:translateY(0) scale(.98)}
+.btn.pri{background:linear-gradient(135deg,var(--a1),var(--a2));color:#04121F;border-color:transparent;font-weight:800}
+:focus-visible{outline:2px solid var(--a2);outline-offset:2px}
+.head{margin:18px 2px 10px}
+h1{font-size:clamp(26px,6.6vw,40px);font-weight:800;letter-spacing:-.02em;background:linear-gradient(100deg,var(--txt),var(--a1) 50%,var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{color:var(--a1);font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin-top:4px}
+.hud{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.stat{background:linear-gradient(180deg,var(--surf),var(--ink2));border:1px solid var(--line);border-radius:12px;padding:8px 6px;text-align:center}
+.stat b{display:block;font-size:19px;font-variant-numeric:tabular-nums;color:var(--a1)}
+.stat.warm b{color:var(--a2)}
+.stat span{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim)}
+.turn{display:flex;align-items:center;justify-content:center;gap:9px;margin:10px 0;font-size:13px;color:var(--dim);min-height:24px}
+.turn i{width:14px;height:14px;border-radius:50%;box-shadow:0 0 12px currentColor;background:currentColor}
+.stage{position:relative;aspect-ratio:7/6;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,var(--surf2),var(--surf));box-shadow:0 24px 60px rgba(0,0,0,.6),inset 0 0 60px rgba(0,0,0,.45);touch-action:manipulation;cursor:pointer}
+.grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:repeat(6,1fr);gap:5px;padding:10px}
+.hole{position:relative;border-radius:50%;background:radial-gradient(circle at 50% 38%,#071322,#030A13);box-shadow:inset 0 4px 10px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.05);overflow:visible}
+.disc{position:absolute;inset:6%;border-radius:50%;opacity:0;transform:translateY(0);will-change:transform}
+.disc.you{opacity:1;background:radial-gradient(circle at 36% 30%,#FFFFFF,#BFE6FF 45%,#5FA8D6);box-shadow:0 0 20px rgba(191,230,255,.5),inset 0 -4px 10px rgba(20,60,90,.4)}
+.disc.bot{opacity:1;background:radial-gradient(circle at 36% 30%,#FFE0B8,#FB923C 48%,#B45309);box-shadow:0 0 20px rgba(251,146,60,.5),inset 0 -4px 10px rgba(110,45,0,.45)}
+.disc.drop{transition:transform .42s cubic-bezier(.35,1.35,.5,1)}
+.hole.ghost::after{content:"";position:absolute;inset:14%;border-radius:50%;background:rgba(223,243,255,.16);box-shadow:inset 0 0 0 2px rgba(223,243,255,.3)}
+.hole.win .disc{animation:winp .7s ease-in-out infinite alternate}
+@keyframes winp{to{box-shadow:0 0 34px #fff,0 0 60px currentColor;transform:scale(1.06)}}
+.spark{position:absolute;width:8px;height:8px;border-radius:50%;pointer-events:none;z-index:7;animation:sp .7s ease-out forwards}
+@keyframes sp{to{transform:translate(var(--dx),var(--dy)) scale(0);opacity:0}}
+.ov{position:absolute;inset:0;display:grid;place-content:center;text-align:center;gap:10px;padding:24px;background:rgba(4,10,20,.92);backdrop-filter:blur(6px);z-index:9;cursor:auto}
+.ov[hidden]{display:none}.ov h2{font-size:26px;color:var(--a1)}.ov p{color:var(--dim);max-width:34ch;margin:0 auto;font-size:14px}
+.pad{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:14px;flex-wrap:wrap}
+.cols{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;padding:0 10px;margin-top:8px}
+.cols button{font:inherit;font-size:12px;font-weight:700;color:var(--dim);background:var(--surf);border:1px solid var(--line);border-radius:8px;padding:5px 0;cursor:pointer;transition:.14s}
+.cols button:hover{color:var(--txt);border-color:var(--a1);background:var(--surf2)}
+.cols button:disabled{opacity:.3;cursor:not-allowed}
+.conf{position:absolute;width:8px;height:12px;pointer-events:none;z-index:8;top:-16px;animation:cf 1.5s linear forwards}
+@keyframes cf{to{transform:translate(var(--dx),110vh) rotate(720deg);opacity:0}}
+.foot{margin-top:20px;padding:16px;border:1px solid var(--line);border-radius:14px;background:linear-gradient(180deg,var(--surf),transparent);color:var(--dim);font-size:14px}
+.foot b{color:var(--a1)}.foot p+p{margin-top:10px}
+@media(max-width:520px){.stat b{font-size:17px}.grid{gap:3px;padding:7px}.cols{padding:0 7px;gap:3px}}
+@media(prefers-reduced-motion:reduce){body::before{animation:none}.disc.drop{transition:none}}
+</style></head><body><div class="wrap">
+<header class="top"><div class="brand"><span class="dots"><i></i><i></i><i></i><i></i></span><b>USA</b><em>::GAME::CONNECT4</em></div>
+<div class="tools"><select id="diff" aria-label="Уровень бота"><option value="1">Бот · лёгкий</option><option value="5" selected>Бот · сильный</option></select><button class="ico" id="snd" aria-pressed="true">🔊 Звук</button></div></header>
+<div class="head"><h1>Четыре в ряд</h1><p class="tag">:: Дуэль ::</p></div>
+<div class="hud"><div class="stat"><b id="hYou">0</b><span>Ты</span></div><div class="stat warm"><b id="hBot">0</b><span>Бот</span></div><div class="stat"><b id="hDraw">0</b><span>Ничьи</span></div><div class="stat"><b id="hMove">0</b><span>Ходы</span></div></div>
+<div class="turn" id="turn"><i style="color:var(--you)"></i><span>Твой ход — выбери столбец</span></div>
+<div class="stage" id="stage"><div class="grid" id="grid"></div><div class="ov" id="ov" hidden><h2></h2><p></p><button class="btn pri" id="ovBtn">Ещё партия</button></div></div>
+<div class="cols" id="cols"></div>
+<div class="pad"><button class="btn pri" id="restart">Новая партия</button><button class="btn" id="reset">Сбросить счёт</button><span style="color:var(--dim);font-size:13px">Клавиши 1–7</span></div>
+<footer class="foot"><p>Семь столбцов, шесть рядов. Касание по столбцу бросает фишку вниз. Собери четыре в ряд: по горизонтали, вертикали или диагонали. Ты играешь светлыми, бот — тёплыми. Два уровня бота.</p><p><b>Упражнение:</b> обыграй лёгкого бота. Потом сильного. Найди столбец, с которого выгодно начинать. Или докажи, что начало ничего не решает.</p></footer>
+</div><script>
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{const v=JSON.parse(localStorage.getItem('usa_'+k));return v==null?d:v}catch(e){return d}},set(k,v){try{localStorage.setItem('usa_'+k,JSON.stringify(v))}catch(e){}}};
+const Snd=(()=>{let ctx,on=store.get('snd',true);const ac=()=>ctx||(ctx=new(window.AudioContext||window.webkitAudioContext)());
+function t(f,d,ty='sine',v=.14,to){if(!on)return;try{const c=ac();if(c.state==='suspended')c.resume();const o=c.createOscillator(),g=c.createGain();o.type=ty;o.frequency.setValueAtTime(f,c.currentTime);if(to)o.frequency.exponentialRampToValueAtTime(Math.max(40,to),c.currentTime+d);g.gain.setValueAtTime(.0001,c.currentTime);g.gain.exponentialRampToValueAtTime(v,c.currentTime+.012);g.gain.exponentialRampToValueAtTime(.0001,c.currentTime+d);o.connect(g).connect(c.destination);o.start();o.stop(c.currentTime+d+.03)}catch(e){}}
+function n(d,v=.16){if(!on)return;try{const c=ac(),b=c.createBuffer(1,c.sampleRate*d,c.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=(Math.random()*2-1)*(1-i/a.length);const s=c.createBufferSource(),g=c.createGain(),f=c.createBiquadFilter();f.type='lowpass';f.frequency.value=700;s.buffer=b;g.gain.value=v;s.connect(f).connect(g).connect(c.destination);s.start()}catch(e){}}
+return{t,n,resume(){try{ac().resume()}catch(e){}},set(v){on=v;store.set('snd',v)},get on(){return on}}})();
+const COLS=7,ROWS=6,SIZE=42,YOU=1,BOT=2,ORDER=[3,2,4,1,5,0,6];
+const stage=$('#stage'),grid=$('#grid'),ov=$('#ov'),ovBtn=$('#ovBtn'),colsEl=$('#cols'),turnEl=$('#turn');
+let b=[],holes=[],discs=[],turn=YOU,state='play',moves=0,thinking=false,ghostCol=-1;
+let score=store.get('c4score',{y:0,b:0,d:0});
+const WINDOWS=(()=>{const w=[];for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++){
+ if(c+3<COLS)w.push([r*COLS+c,r*COLS+c+1,r*COLS+c+2,r*COLS+c+3]);
+ if(r+3<ROWS)w.push([r*COLS+c,(r+1)*COLS+c,(r+2)*COLS+c,(r+3)*COLS+c]);
+ if(r+3<ROWS&&c+3<COLS)w.push([r*COLS+c,(r+1)*COLS+c+1,(r+2)*COLS+c+2,(r+3)*COLS+c+3]);
+ if(r+3<ROWS&&c-3>=0)w.push([r*COLS+c,(r+1)*COLS+c-1,(r+2)*COLS+c-2,(r+3)*COLS+c-3])}return w})();
+function build(){grid.innerHTML='';holes=[];discs=[];colsEl.innerHTML='';
+ for(let i=0;i<SIZE;i++){const h=document.createElement('div');h.className='hole';
+  const d=document.createElement('div');d.className='disc';h.appendChild(d);grid.appendChild(h);holes.push(h);discs.push(d)}
+ for(let c=0;c<COLS;c++){const btn=document.createElement('button');btn.type='button';btn.textContent=c+1;
+  btn.setAttribute('aria-label','Столбец '+(c+1));btn.addEventListener('click',()=>human(c));colsEl.appendChild(btn)}}
+function landing(col){for(let r=ROWS-1;r>=0;r--)if(!b[r*COLS+col])return r;return -1}
+function winLine(p){for(const w of WINDOWS)if(w.every(i=>b[i]===p))return w;return null}
+function full(){return b.every(v=>v)}
+function paint(){for(let i=0;i<SIZE;i++){const d=discs[i];d.className='disc'+(b[i]===YOU?' you':b[i]===BOT?' bot':'');d.style.transform='';d.style.transition=''}
+ [...colsEl.children].forEach((btn,c)=>btn.disabled=state!=='play'||thinking||landing(c)<0)}
+function hud(){$('#hYou').textContent=score.y;$('#hBot').textContent=score.b;$('#hDraw').textContent=score.d;$('#hMove').textContent=moves;
+ if(state!=='play'){turnEl.innerHTML='<span>Партия завершена</span>';return}
+ if(thinking)turnEl.innerHTML='<i style="color:var(--bot)"></i><span>Бот думает…</span>';
+ else turnEl.innerHTML='<i style="color:var(--you)"></i><span>Твой ход — выбери столбец</span>'}
+function setGhost(col){if(ghostCol>=0){const r=landing(ghostCol);if(r>=0)holes[r*COLS+ghostCol].classList.remove('ghost')}
+ ghostCol=col;if(col<0||state!=='play'||thinking)return;const r=landing(col);if(r>=0)holes[r*COLS+col].classList.add('ghost')}
+function sparks(el,color,n=16){const r=el.getBoundingClientRect(),s=stage.getBoundingClientRect();
+ for(let i=0;i<n;i++){const p=document.createElement('span');p.className='spark';p.style.background=color;
+  p.style.left=(r.left-s.left+r.width/2)+'px';p.style.top=(r.top-s.top+r.height/2)+'px';
+  p.style.setProperty('--dx',(Math.random()*130-65)+'px');p.style.setProperty('--dy',(Math.random()*130-65)+'px');
+  stage.appendChild(p);p.addEventListener('animationend',()=>p.remove())}}
+function confetti(n=54){const C=['#DFF3FF','#38BDF8','#FB923C','#35D08A','#FDE047'];
+ for(let i=0;i<n;i++){const s=document.createElement('span');s.className='conf';s.style.background=C[i%5];
+  s.style.left=Math.random()*100+'%';s.style.setProperty('--dx',(Math.random()*170-85)+'px');s.style.animationDelay=(Math.random()*.5)+'s';
+  stage.appendChild(s);s.addEventListener('animationend',()=>s.remove())}}
+function showOv(t,p,btn){ov.hidden=false;ov.querySelector('h2').textContent=t;ov.querySelector('p').textContent=p;ovBtn.textContent=btn}
+function drop(col,p,cb){const r=landing(col);if(r<0){cb&&cb(false);return}
+ const i=r*COLS+col;b[i]=p;moves++;
+ const d=discs[i];d.className='disc '+(p===YOU?'you':'bot');
+ const cellH=grid.getBoundingClientRect().height/ROWS;
+ d.style.transition='none';d.style.transform='translateY('+(-(r+1.4)*cellH)+'px)';
+ requestAnimationFrame(()=>{requestAnimationFrame(()=>{d.classList.add('drop');d.style.transform='translateY(0)'})});
+ Snd.t(p===YOU?300:240,.12,'triangle',.13,150);setTimeout(()=>Snd.n(.09,.1),330);
+ setGhost(-1);hud();
+ setTimeout(()=>{cb&&cb(true)},430)}
+function afterMove(p){const line=winLine(p);
+ if(line){state='over';line.forEach(i=>holes[i].classList.add('win'));
+  const el=holes[line[1]];sparks(el,p===YOU?'#DFF3FF':'#FB923C',26);
+  if(p===YOU){score.y++;confetti();[523,659,784,1046,1318].forEach((f,i)=>setTimeout(()=>Snd.t(f,.25,'sine',.15),i*100));
+   showOv('Четыре в ряд','Ты собрал линию за '+moves+' ходов. Счёт '+score.y+' : '+score.b+'.','Ещё партия')}
+  else{score.b++;Snd.n(.4,.2);Snd.t(220,.45,'sawtooth',.14,70);
+   showOv('Бот собрал линию','Тёплые четыре в ряд. Счёт '+score.y+' : '+score.b+'. Попробуй занять центр раньше.','Ещё партия')}
+  store.set('c4score',score);hud();paint();line.forEach(i=>holes[i].classList.add('win'));return true}
+ if(full()){state='over';score.d++;store.set('c4score',score);hud();Snd.t(330,.3,'sine',.12,260);
+  showOv('Ничья','Поле заполнено, линии нет. Счёт '+score.y+' : '+score.b+' · ничьих '+score.d+'.','Ещё партия');return true}
+ return false}
+function human(col){Snd.resume();if(state!=='play'||thinking||turn!==YOU)return;
+ if(landing(col)<0){Snd.t(160,.09,'square',.07);return}
+ drop(col,YOU,ok=>{if(!ok)return;if(afterMove(YOU))return;turn=BOT;thinking=true;paint();hud();setTimeout(botMove,340)})}
+function scorePos(p){const o=p===YOU?BOT:YOU;let s=0;
+ for(const w of WINDOWS){let mine=0,opp=0,emp=0;for(const i of w){if(b[i]===p)mine++;else if(b[i]===o)opp++;else emp++}
+  if(mine===4)s+=100000;else if(mine===3&&emp===1)s+=60;else if(mine===2&&emp===2)s+=12;
+  if(opp===3&&emp===1)s-=90;else if(opp===4)s-=100000}
+ for(let r=0;r<ROWS;r++)if(b[r*COLS+3]===p)s+=8;
+ return s}
+function minimax(depth,alpha,beta,maxing){
+ if(winLine(BOT))return 1000000+depth;if(winLine(YOU))return -1000000-depth;if(full())return 0;
+ if(depth===0)return scorePos(BOT)-scorePos(YOU);
+ const valid=ORDER.filter(c=>landing(c)>=0);
+ if(maxing){let best=-Infinity;for(const c of valid){const r=landing(c),i=r*COLS+c;b[i]=BOT;
+   const v=minimax(depth-1,alpha,beta,false);b[i]=0;if(v>best)best=v;if(best>alpha)alpha=best;if(alpha>=beta)break}return best}
+ let best=Infinity;for(const c of valid){const r=landing(c),i=r*COLS+c;b[i]=YOU;
+  const v=minimax(depth-1,alpha,beta,true);b[i]=0;if(v<best)best=v;if(best<beta)beta=best;if(alpha>=beta)break}return best}
+function botMove(){if(state!=='play'){thinking=false;return}
+ const valid=ORDER.filter(c=>landing(c)>=0);if(!valid.length){thinking=false;return}
+ const depth=+$('#diff').value;let choice=valid[0];
+ if(depth===1&&Math.random()<.35){choice=valid[Math.floor(Math.random()*valid.length)]}
+ else{let best=-Infinity;
+  for(const c of valid){const r=landing(c),i=r*COLS+c;b[i]=BOT;
+   let v;if(winLine(BOT))v=1000000;else v=minimax(depth-1,-Infinity,Infinity,false);
+   b[i]=0;if(v>best){best=v;choice=c}}}
+ drop(choice,BOT,()=>{thinking=false;if(afterMove(BOT))return;turn=YOU;paint();hud()})}
+function newGame(){b=new Array(SIZE).fill(0);turn=YOU;state='play';moves=0;thinking=false;ghostCol=-1;
+ ov.hidden=true;holes.forEach(h=>h.classList.remove('win','ghost'));build();paint();hud()}
+stage.addEventListener('pointermove',e=>{const r=stage.getBoundingClientRect();
+ const c=Math.floor((e.clientX-r.left)/(r.width/COLS));setGhost(Math.max(0,Math.min(COLS-1,c)))});
+stage.addEventListener('pointerleave',()=>setGhost(-1));
+stage.addEventListener('pointerdown',e=>{if(e.target.closest('.ov'))return;const r=stage.getBoundingClientRect();
+ const c=Math.floor((e.clientX-r.left)/(r.width/COLS));human(Math.max(0,Math.min(COLS-1,c)))});
+$('#restart').onclick=()=>{Snd.resume();newGame()};
+ovBtn.onclick=()=>{Snd.resume();newGame()};
+$('#reset').onclick=()=>{score={y:0,b:0,d:0};store.set('c4score',score);hud();Snd.resume();Snd.t(300,.12,'sine',.1,220)};
+$('#diff').onchange=()=>{Snd.resume();Snd.t(520,.09,'triangle',.1)};
+$('#snd').onclick=e=>{const on=!Snd.on;Snd.set(on);e.currentTarget.textContent=on?'🔊 Звук':'🔇 Тихо';e.currentTarget.setAttribute('aria-pressed',on);if(on){Snd.resume();Snd.t(660,.1)}};
+$('#snd').textContent=Snd.on?'🔊 Звук':'🔇 Тихо';
+addEventListener('keydown',e=>{if(e.key>='1'&&e.key<='7')human(+e.key-1);
+ if(e.key==='r'||e.key==='к')newGame();
+ if(e.code==='Space'&&!ov.hidden){e.preventDefault();ovBtn.click()}});
+newGame();
+</script></body></html>
